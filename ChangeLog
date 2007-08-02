@@ -1,0 +1,12 @@
+(add new changes on top of this file)
+
+06-04-24 Thomas Off, LumoNet oHG <t.off@lumonet.de>
+
+	* Fixed erroneus behaviour when including locaL files (thanks to Peter Klein <peter@umloud.dk>
+	* Uses XML instead of PHP files for language string now
+	* Added options to strip non-body parts and wrap script's output with div
+	* Updated documentation
+
+05-11-14 Thomas Off, LumoNet oHG <t.off@lumonet.de>
+
+	* Initial release
