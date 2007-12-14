@@ -3,7 +3,7 @@
 /***************************************************************
 *	Copyright notice
 *
-*	(c) 2005 Thomas Off, LumoNet oHG (t.off@lumonet.de)
+*	(c) 2005 Thomas Off <typo3@retiolum.de>
 *	All rights reserved
 *
 *	This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,7 +26,7 @@
 /**
  * Plugin 'PHP Include' for the 'lumophpinclude' extension.
  *
- * @author	Thomas Off, LumoNet oHG <t.off@lumonet.de>
+ * @author	Thomas Off <typo3@retiolum.de>
  */
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
