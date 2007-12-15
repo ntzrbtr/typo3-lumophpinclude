@@ -2,7 +2,7 @@ LumoNet PHP Include
 
 Extension Key: lumophpinclude
 
-Copyright 2007 Thomas Off <typo3@retiolum.de>
+Copyright 2005-2008 Thomas Off <typo3@retiolum.de>
 
 This extension let you include complete external PHP solutions (e.g. message boards
 or image galleries) into TYPO3. With this extension you are able to select a local
