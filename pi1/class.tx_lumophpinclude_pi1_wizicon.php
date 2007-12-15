@@ -2,7 +2,7 @@
 /*
  * Copyright notice
  *
- * (c) 2005 Thomas Off <typo3@retiolum.de>
+ * (c) 2005-2008 Thomas Off <typo3@retiolum.de>
  * All rights reserved
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,6 +26,8 @@
  * Class that adds the wizard icon.
  *
  * @author Thomas Off <typo3@retiolum.de>
+ * @package TYPO3
+ * @subpackage tx_lumogooglemaps
  */
 class tx_lumophpinclude_pi1_wizicon {
 
