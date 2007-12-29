@@ -40,7 +40,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
     /**
      * Get configuration options from the flexform.
      *
-     * @return
+     * @return void
      */
     function init() {
         $this->pi_initPIflexForm();    // Init and get the flexform data of the plugin.
@@ -80,136 +80,13 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Initialize content variable.
         $content = '';
 
-        if ($this->lConf['script_type'] == 'file') {    // Local script will be included.
-
-            // Put GET parameters into an array.
-            $getvars = array();
-            if ($this->lConf['transfer_get']) {
-                foreach ($_GET as $key => $val) {
-                    $getvars[$key] = $val;
-                }
-            }
-
-            // Put POST parameters into an array.
-            $postvars = array();
-            if ($this->lConf['transfer_post']) {
-                foreach ($_POST as $key => $val) {
-                    $postvars[$key] = $val;
-                }
-            }
-
-            // Put POST parameters into an array.
-            $cookievars = array();
-            if ($this->lConf['transfer_cookies']) {
-                foreach ($_COOKIE as $key => $val) {
-                    $cookievars[$key] = $val;
-                }
-            }
-
-            /*
-             * Old original code to include local scripts.
-             */
-            /*
-            // Get script content.
-            $script_content = $this->cObj->fileResource('uploads/' . $this->lConf['script_file']);
-
-            // Remove PHP start and end tags from script content.
-            $script_content = preg_replace('/<\?php/', '', $script_content);
-            $script_content = preg_replace('/\?>/', '', $script_content);
-
-            // Start output buffering.
-            ob_start();
-
-            // Evaluate included code.
-            eval($script_content);
-
-            // Get output from evaluated code.
-            $content = ob_get_contents();
-
-            // End output buffering and clean buffer.
-            ob_end_clean();
-            */
-
-            /*
-             * New code to include local scripts; thanks to Peter Klein <peter@umloud.dk>
-             */
-            // Get script content.
-            ob_start();
-            include('uploads/' . $this->lConf['script_file']);
-            $content = ob_get_contents();
-            ob_end_clean();
+        if ($this->lConf['script_type'] == 'file') {
+            // Local script will be included directly.
+            $content = $this->doLocalCall();
         }
-        else {    // Remote script will be included via HTTP.
-
-            // Turn GET parameters into single string.
-            $temp_getvars = '';
-            if ($this->lConf['transfer_get']) {
-                foreach ($_GET as $key => $val) {
-                    if (is_array($val)) {
-                        $i = 0;
-                        foreach ($val as $key2 => $val2) {
-                            $temp_getvars .= $key . '[]' . '=' . urlencode($val2) . '&';
-                            $i++;
-                        }
-                    }
-                    else {
-                        $temp_getvars .= $key . '=' . urlencode($val) . '&';
-                    }
-                }
-            }
-
-            // Turn POST parameters into single string.
-            $temp_postvars = '';
-            if ($this->lConf['transfer_post']) {
-                foreach ($_POST as $key => $val) {
-                    if (is_array($val)) {
-                        $i = 0;
-                        foreach ($val as $key2 => $val2) {
-                            $temp_postvars .= $key . '[]' . '=' . urlencode($val2) . '&';
-                            $i++;
-                        }
-                    }
-                    else {
-                        $temp_postvars .= $key . '=' . urlencode($val) . '&';
-                    }
-                }
-            }
-
-            // Turn cookie data into single string.
-            $temp_cookievars = '';
-            if ($this->lConf['transfer_cookies']) {
-                foreach ($_COOKIE as $key => $val) {
-                    if (is_array($val)) {
-                        $i = 0;
-                        foreach ($val as $key2 => $val2) {
-                            $temp_cookievars .= $key . '[]' . '=' . urlencode($val2) . '&';
-                            $i++;
-                        }
-                    }
-                    else {
-                        $temp_cookievars .= $key . '=' . urlencode($val) . '&';
-                    }
-                }
-            }
-
-            // Compose GET and POST parameter and cookie data into one string.
-            $params = '';
-            if ($temp_getvars != '') {
-                $params .= ($params == '' ? '' : '&') . $temp_getvars;
-            }
-            if ($temp_postvars != '') {
-                $params .= ($params == '' ? '' : '&') . $temp_postvars;
-            }
-            if ($temp_cookievars != '') {
-                $params .= ($params == '' ? '' : '&') . $temp_cookievars;
-            }
-
-            // Compose URL of script to include.
-            $url = $this->lConf['script_url'];
-            $url .= ($params == '' ? '' : ((strstr($url, '?') ? '&' : '?') . $params));
-
-            // Include script.
-            $content = file_get_contents($url);
+        else {
+            // Remote script will be included via a real HTTP request.
+            $content = $this->doRemoteCall();
 
         }
 
@@ -259,6 +136,133 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
 
         // Return content from script.
         return $this->pi_wrapInBaseClass($content);
+    }
+    
+    /**
+     * Include a local script resource and return the resulting content for further processing.
+     *
+     * @return string Rendered content from included script
+     */
+    function doLocalCall() {
+        // Put GET and POST parameters into separate arrays (though the included script can access them anyway).  
+        $getvars = t3lib_div::_GET();
+        $postvars = t3lib_div::_POST();
+
+        /*
+         * Old original code to include local scripts.
+         */
+        /*
+        // Get script content.
+        $script_content = $this->cObj->fileResource('uploads/' . $this->lConf['script_file']);
+
+        // Remove PHP start and end tags from script content.
+        $script_content = preg_replace('/<\?php/', '', $script_content);
+        $script_content = preg_replace('/\?>/', '', $script_content);
+
+        // Start output buffering.
+        ob_start();
+
+        // Evaluate included code.
+        eval($script_content);
+
+        // Get output from evaluated code.
+        $content = ob_get_contents();
+
+        // End output buffering and clean buffer.
+        ob_end_clean();
+        */
+
+        /*
+         * New code to include local scripts; thanks to Peter Klein <peter@umloud.dk>
+         */
+        // Get script content.
+        ob_start();
+        include('uploads/' . $this->lConf['script_file']);
+        $content = ob_get_contents();
+        ob_end_clean();
+        
+        // Return content for further processing.
+        return $content;
+    }
+    
+    /**
+     * Include a remote script resource via a real HTTP request and return the resulting content for further processing.
+     *
+     * @return string Rendered content from included script
+     */
+    function doRemoteCall() {
+        // Turn GET parameters into single string.
+        $temp_getvars = '';
+        if ($this->lConf['transfer_get']) {
+            foreach ($_GET as $key => $val) {
+                if (is_array($val)) {
+                    $i = 0;
+                    foreach ($val as $key2 => $val2) {
+                        $temp_getvars .= $key . '[]' . '=' . urlencode($val2) . '&';
+                        $i++;
+                    }
+                }
+                else {
+                    $temp_getvars .= $key . '=' . urlencode($val) . '&';
+                }
+            }
+        }
+
+        // Turn POST parameters into single string.
+        $temp_postvars = '';
+        if ($this->lConf['transfer_post']) {
+            foreach ($_POST as $key => $val) {
+                if (is_array($val)) {
+                    $i = 0;
+                    foreach ($val as $key2 => $val2) {
+                        $temp_postvars .= $key . '[]' . '=' . urlencode($val2) . '&';
+                        $i++;
+                    }
+                }
+                else {
+                    $temp_postvars .= $key . '=' . urlencode($val) . '&';
+                }
+            }
+        }
+
+        // Turn cookie data into single string.
+        $temp_cookievars = '';
+        if ($this->lConf['transfer_cookies']) {
+            foreach ($_COOKIE as $key => $val) {
+                if (is_array($val)) {
+                    $i = 0;
+                    foreach ($val as $key2 => $val2) {
+                        $temp_cookievars .= $key . '[]' . '=' . urlencode($val2) . '&';
+                        $i++;
+                    }
+                }
+                else {
+                    $temp_cookievars .= $key . '=' . urlencode($val) . '&';
+                }
+            }
+        }
+
+        // Compose GET and POST parameter and cookie data into one string.
+        $params = '';
+        if ($temp_getvars != '') {
+            $params .= ($params == '' ? '' : '&') . $temp_getvars;
+        }
+        if ($temp_postvars != '') {
+            $params .= ($params == '' ? '' : '&') . $temp_postvars;
+        }
+        if ($temp_cookievars != '') {
+            $params .= ($params == '' ? '' : '&') . $temp_cookievars;
+        }
+
+        // Compose URL of script to include.
+        $url = $this->lConf['script_url'];
+        $url .= ($params == '' ? '' : ((strstr($url, '?') ? '&' : '?') . $params));
+
+        // Include script.
+        $content = file_get_contents($url);
+
+        // Return content for further processing.
+        return $content;
     }
 
 }
