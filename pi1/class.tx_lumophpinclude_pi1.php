@@ -147,35 +147,8 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Put GET and POST parameters into separate arrays (though the included script can access them anyway).  
         $getvars = t3lib_div::_GET();
         $postvars = t3lib_div::_POST();
-
-        /*
-         * Old original code to include local scripts.
-         */
-        /*
-        // Get script content.
-        $script_content = $this->cObj->fileResource('uploads/' . $this->lConf['script_file']);
-
-        // Remove PHP start and end tags from script content.
-        $script_content = preg_replace('/<\?php/', '', $script_content);
-        $script_content = preg_replace('/\?>/', '', $script_content);
-
-        // Start output buffering.
-        ob_start();
-
-        // Evaluate included code.
-        eval($script_content);
-
-        // Get output from evaluated code.
-        $content = ob_get_contents();
-
-        // End output buffering and clean buffer.
-        ob_end_clean();
-        */
-
-        /*
-         * New code to include local scripts; thanks to Peter Klein <peter@umloud.dk>
-         */
-        // Get script content.
+        
+        // Code to include local scripts; thanks to Peter Klein <peter@umloud.dk>
         ob_start();
         include('uploads/' . $this->lConf['script_file']);
         $content = ob_get_contents();
