@@ -35,9 +35,9 @@ require_once(t3lib_extMgm::extPath('lumophpinclude') . 'lib/Snoopy.class.php');
  */
 class tx_lumophpinclude_pi1 extends tslib_pibase {
 
-    var $prefixId = 'tx_lumophpinclude_pi1';            // Same as class name
-    var $scriptRelPath = 'pi1/class.tx_lumophpinclude_pi1.php';    // Path to this script relative to the extension dir.
-    var $extKey = 'lumophpinclude';    // The extension key.
+    var $prefixId = 'tx_lumophpinclude_pi1'; // Same as class name
+    var $scriptRelPath = 'pi1/class.tx_lumophpinclude_pi1.php'; // Path to this script relative to the extension dir.
+    var $extKey = 'lumophpinclude'; // The extension key.
 
     /**
      * Get configuration options from the flexform.
@@ -45,8 +45,8 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
      * @return void
      */
     function init() {
-        $this->pi_initPIflexForm();    // Init and get the flexform data of the plugin.
-        $piFlexForm = $this->cObj->data['pi_flexform'];    // Assign the flexform data to a local variable for easier access.
+        $this->pi_initPIflexForm(); // Init and get the flexform data of the plugin.
+        $piFlexForm = $this->cObj->data['pi_flexform']; // Assign the flexform data to a local variable for easier access.
 
         // Get the configuration values from flexform.
         $this->lConf['transfer_get'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'transfer_get', 'sDEF');
@@ -106,8 +106,8 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
      */
     function doLocalCall() {
         // Put GET and POST parameters into separate arrays (though the included script can access them anyway).  
-        $getvars = t3lib_div::_GET();
-        $postvars = t3lib_div::_POST();
+        $lGetvars = t3lib_div::_GET();
+        $lPostvars = t3lib_div::_POST();
         
         // Code to include local scripts; thanks to Peter Klein <peter@umloud.dk>
         ob_start();
@@ -200,19 +200,41 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Create new Snoopy object for doing remote calls
         $oSnoopy = new Snoopy();
         
-        // Compose URL for calling
-        $url = $this->lConf['script_url']; // Base URL as set in flexform
+        // Fetch GET variables using TYPO3 API
+        $lGetvars = t3lib_div::_GET();
+        
+        // Determine URL for request
+        $baseUrl = $this->lConf['script_url']; // Base URL as set in flexform
+        if (array_key_exists('tx_lumophpinclude_url', $lGetvars)
+            && $lGetvars['tx_lumophpinclude_url'] != '') {
+            // If parameter exists => decode URL
+            $url = base64_decode($lGetvars['tx_lumophpinclude_url']);
+
+            // Determine final URL based on the link to follow
+            if (substr($url, 0, 1) == '/') {
+                // Absolute URL
+                $baseUrl = preg_replace('/^(https?:\/\/[^\/]+).*/', '$1', $baseUrl);
+            }
+            else {
+                // URL relative to original script
+                $baseUrl = substr($baseUrl, 0, strrpos($baseUrl, '/'));
+            }
+            
+            // Append the link to the base URL
+            $baseUrl .= $url;
+        }
+        
+        // Compose the full URL for the request
         if ($this->lConf['transfer_get']) {
-            // Parse GET variables and append to one string
-            $getvars = t3lib_div::_GET();
+            // Add GET variables to the base URL
             $params = '';
-            foreach ($getvars as $key => $val) {
+            foreach ($lGetvars as $key => $val) {
                 // Omit the id parameter as this is just the TYPO3 page id
                 if ($key == 'id') {
                     continue;
                 }
                 
-                // Append all parameters to one string
+                // Append parameters to the $params string
                 if (is_array($val)) {
                     foreach ($val as $key2 => $val2) {
                         $params .= $key . '[]' . '=' . urlencode($val2) . '&';
@@ -226,8 +248,12 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             // Remove the last ampersand character
             $params = substr($params, 0, -1);
             
-            // Append parameter string to URL
-            $url .= ($params == '' ? '' : ((strstr($url, '?') ? '&' : '?') . $params));
+            // Append parameter string to base URL
+            $url = $baseUrl . ($params == '' ? '' : ((strstr($baseUrl, '?') ? '&' : '?') . $params));
+        }
+        else {
+            // No more parameters to add => use base URL determined above
+            $url = $baseUrl;
         }
         
         // Fetch the URL
@@ -290,6 +316,44 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             $content = preg_replace('/###PID###/', $page_id, $content);
         }
         
+        // EXPERIMENTAL: URL REWRITING FOR LOCAL LINKS
+$rewriteLocalUrl = true;
+        if ($rewriteLocalUrl) {
+            // Initialize arrays for replacing
+            $lReplaces = array();
+            
+            // Search all links
+            $lMatches = array();
+            if (preg_match_all('/(<a[^>]+>)/', $content, $lMatches) > 0) {
+                // Process matches
+                $lMatches = $lMatches[1];
+                foreach ($lMatches as $match) {                    
+                    // Search for all links with a "href" attribute
+                    $lSubmatches = array();
+                    if (preg_match('/(href=(["\']?)([^\s>]*)\\2)/', $match, $lSubmatches)) {
+                        $submatch = $lSubmatches[1]; // The whole match
+                        $enclosure = $lSubmatches[2]; // The enclosure of the attribute value if present
+                        $url = $lSubmatches[3]; // The URL of the link
+
+                        // Process all URLs that are local links (i.e. that do not have a protocol specifier) 
+                        $lUrlMatches = array();
+                        if (preg_match('/^(?(?!(http|https|ftp):\/\/|mailto:|javascript:)(.*))$/', $url, $lUrlMatches)) {
+                            $url = ($enclosure != '' ? substr($lUrlMatches[2], 0, -1) : $lUrlMatches[2]); // The URL of the link with the enclosure stripped
+                            
+                            // Add the URL as a parameter and make the URL relative to the current page (i.e. the TYPO3 page)
+                            $rewrittenUrl = $_SERVER['REQUEST_URI'] . '&tx_lumophpinclude_url=' . base64_encode($url);
+                            
+                            // Add an entry to the replace array (used below to do the real work)
+                            $lReplaces[$match] = str_replace($url, $rewrittenUrl, $match);
+                        }
+                    }
+                }
+            }
+            
+            // Do the real replacement work using the above created array
+            $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
+        }
+                
         // Return the processed content
         return $content;
     }
