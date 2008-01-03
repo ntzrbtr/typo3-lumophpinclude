@@ -99,24 +99,15 @@
                             </config>
                         </TCEforms>
                     </strip_non_marked>
-                    <marker_start>
+                    <strip_marker>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.marker_start</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.strip_marker</label>
                             <config>
                                 <type>input</type>
                                 <size>20</size>
                             </config>
                         </TCEforms>
-                    </marker_start>
-                    <marker_end>
-                        <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.marker_end</label>
-                            <config>
-                                <type>input</type>
-                                <size>20</size>
-                            </config>
-                        </TCEforms>
-                    </marker_end>
+                    </strip_marker>
                     <wrap_in_div>
                         <TCEforms>
                             <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.wrap_in_div</label>
@@ -125,14 +116,22 @@
                             </config>
                         </TCEforms>
                     </wrap_in_div>
-                    <replace_pid>
+                    <rewrite_internal_link>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.replace_pid</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.rewrite_internal_link</label>
                             <config>
                                 <type>check</type>
                             </config>
                         </TCEforms>
-                    </replace_pid>
+                    </rewrite_internal_link>
+                    <rewrite_external_link>
+                        <TCEforms>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.rewrite_external_link</label>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </rewrite_external_link>
                 </el>
             </ROOT>
         </sProcessing>
