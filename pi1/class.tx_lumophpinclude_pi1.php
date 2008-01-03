@@ -27,7 +27,7 @@ require_once(PATH_tslib.'class.tslib_pibase.php');
 require_once(t3lib_extMgm::extPath('lumophpinclude') . 'lib/Snoopy.class.php');
 
 /**
- * Plugin 'PHP Include' for the 'lumophpinclude' extension.
+ * Plugin 'PHP Include' for the 'lumophpinclude' extension
  *
  * @author Thomas Off <typo3@retiolum.de>
  * @package TYPO3
@@ -36,8 +36,8 @@ require_once(t3lib_extMgm::extPath('lumophpinclude') . 'lib/Snoopy.class.php');
 class tx_lumophpinclude_pi1 extends tslib_pibase {
 
     var $prefixId = 'tx_lumophpinclude_pi1'; // Same as class name
-    var $scriptRelPath = 'pi1/class.tx_lumophpinclude_pi1.php'; // Path to this script relative to the extension dir.
-    var $extKey = 'lumophpinclude'; // The extension key.
+    var $scriptRelPath = 'pi1/class.tx_lumophpinclude_pi1.php'; // Path to this script relative to the extension directory
+    var $extKey = 'lumophpinclude'; // The extension key
 
     /**
      * Get configuration options from the flexform.
@@ -45,10 +45,10 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
      * @return void
      */
     function init() {
-        $this->pi_initPIflexForm(); // Init and get the flexform data of the plugin.
-        $piFlexForm = $this->cObj->data['pi_flexform']; // Assign the flexform data to a local variable for easier access.
+        $this->pi_initPIflexForm(); // Init and get the flexform data of the plugin
+        $piFlexForm = $this->cObj->data['pi_flexform']; // Assign the flexform data to a local variable for easier access
 
-        // Get the configuration values from flexform.
+        // Get the configuration values from flexform
         $this->lConf['transfer_get'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'transfer_get', 'sDEF');
         $this->lConf['transfer_post'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'transfer_post', 'sDEF');
         $this->lConf['transfer_cookies'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'transfer_cookies', 'sDEF');
@@ -74,20 +74,20 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         $this->conf = $conf;
         $this->pi_setPiVarDefaults();
         $this->pi_loadLL();
-        $this->pi_USER_INT_obj = 1; // Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
+        $this->pi_USER_INT_obj = 1; // Configuring so caching is not expected; this value means that no cHash params are ever set; we do this, because it's a USER_INT object!
 
-        // Read FlexForm data.
+        // Read FlexForm data
         $this->init();
 
-        // Initialize content variable.
+        // Initialize content variable
         $content = '';
 
         if ($this->lConf['script_type'] == 'file') {
-            // Local script will be included directly.
+            // Local script will be included directly
             $content = $this->doLocalCall();
         }
         else {
-            // Remote script will be included via a real HTTP request.
+            // Remote script will be included via a real HTTP request
             $content = $this->doRemoteCall();
 
         }
@@ -95,7 +95,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Post-process fetched content
         $content = $this->doPostProcessing($content);
 
-        // Return content from script.
+        // Return content from script
         return $this->pi_wrapInBaseClass($content);
     }
     
@@ -105,7 +105,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
      * @return string Rendered content from included script
      */
     function doLocalCall() {
-        // Put GET and POST parameters into separate arrays (though the included script can access them anyway).  
+        // Put GET and POST parameters into separate arrays (though the included script can access them anyway)
         $lGetvars = t3lib_div::_GET();
         $lPostvars = t3lib_div::_POST();
         
@@ -126,7 +126,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
      */
     function doRemoteCall() {
         /*
-        // Turn GET parameters into single string.
+        // Turn GET parameters into single string
         $temp_getvars = '';
         if ($this->lConf['transfer_get']) {
             foreach ($_GET as $key => $val) {
@@ -143,7 +143,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             }
         }
 
-        // Turn POST parameters into single string.
+        // Turn POST parameters into single string
         $temp_postvars = '';
         if ($this->lConf['transfer_post']) {
             foreach ($_POST as $key => $val) {
@@ -160,7 +160,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             }
         }
 
-        // Turn cookie data into single string.
+        // Turn cookie data into single string
         $temp_cookievars = '';
         if ($this->lConf['transfer_cookies']) {
             foreach ($_COOKIE as $key => $val) {
@@ -177,7 +177,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             }
         }
 
-        // Compose GET and POST parameter and cookie data into one string.
+        // Compose GET and POST parameter and cookie data into one string
         $params = '';
         if ($temp_getvars != '') {
             $params .= ($params == '' ? '' : '&') . $temp_getvars;
@@ -189,11 +189,11 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             $params .= ($params == '' ? '' : '&') . $temp_cookievars;
         }
 
-        // Compose URL of script to include.
+        // Compose URL of script to include
         $url = $this->lConf['script_url'];
         $url .= ($params == '' ? '' : ((strstr($url, '?') ? '&' : '?') . $params));
 
-        // Include script.
+        // Include script
         $content = file_get_contents($url);
         */
 
@@ -274,14 +274,14 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
     function doPostProcessing($content) {
         // Strip non-body parts
         if ($this->lConf['strip_non_body']) {
-            // Remove everything before and after body tag.
+            // Remove everything before and after body tag
             preg_match('/<body\b[^>]*>\s*(.*?)\s*<\/body>/si', $content, $matches);
             $content = ($matches[1]) ? $matches[1] : $content;
         }
 
         // Strip non-marked parts
         if ($this->lConf['strip_non_marked']) {
-            // Strip start and end if marker are set in flexform.
+            // Strip start and end if marker are set in flexform
             if ($this->lConf['marker_start'] != '') {
                 $content = preg_replace('/.*?<!-- *' . $this->lConf['marker_start'] . ' *-->/s', '$1', $content);
             }
@@ -292,11 +292,11 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
 
         // Wrap all content in div with class
         if ($this->lConf['wrap_in_div']) {
-            // Create classname based on name of PHP file.
+            // Create classname based on name of PHP file
             $path = explode("?", $this->lConf['script_file']);
             $basename = basename($path[0]);
 
-            // Change any non letter, hyphen, or period to an underscore.
+            // Change any non letter, hyphen, or period to an underscore
             $pattern = array(
                 '/[^\w]/s',
                 '/\./s'
