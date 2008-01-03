@@ -23,10 +23,10 @@
             <label index="lumophpinclude.pi1.flexform.sprocessing.sheet_title">Processing options</label>
             <label index="lumophpinclude.pi1.flexform.sprocessing.strip_non_body">Strip non-body parts</label>
             <label index="lumophpinclude.pi1.flexform.sprocessing.strip_non_marked">Strip content outside markers</label>
-            <label index="lumophpinclude.pi1.flexform.sprocessing.marker_start">Start marker</label>
-            <label index="lumophpinclude.pi1.flexform.sprocessing.marker_end">End marker</label>
-            <label index="lumophpinclude.pi1.flexform.sprocessing.wrap_in_div">Wrap output with div</label>
-            <label index="lumophpinclude.pi1.flexform.sprocessing.replace_pid">Replace marker for page id</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.strip_marker">Marker for stripping</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.wrap_in_div">Wrap output into div</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.rewrite_internal_link">Rewrite internal links</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.rewrite_external_link">Rewrite external links</label>
         </languageKey>
         <languageKey index="de" type="array">
             <!-- Language keys for sheet sSource -->
