@@ -270,6 +270,8 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             // TODO: Implement external link rewriting similar to internal rewriting
         }
         
+        // TODO: Implement rewriting of relative image and script sources (also add this in the flexform as an option)
+        
         // Wrap all content in div with class
         if ($this->lConf['processing']['wrap_in_div']) {
             // Create classname using an MD5 hash of the included script
