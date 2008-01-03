@@ -1,15 +1,15 @@
 <T3DataStructure>
     <sheets>
-        <sDEF>
+        <sSource>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sheet_general</sheetTitle>
+                    <sheetTitle>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.sheet_title</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <transfer_get>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.transfer_get</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_get</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -17,7 +17,7 @@
                     </transfer_get>
                     <transfer_post>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.transfer_post</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_post</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -25,7 +25,7 @@
                     </transfer_post>
                     <transfer_cookies>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.transfer_cookies</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_cookies</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -33,16 +33,16 @@
                     </transfer_cookies>
                     <script_type>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.script_type</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.script_type</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.script_type_file</numIndex>
+                                        <numIndex index="0">LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.script_type_file</numIndex>
                                         <numIndex index="1">file</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.script_type_url</numIndex>
+                                        <numIndex index="0">LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.script_type_url</numIndex>
                                         <numIndex index="1">url</numIndex>
                                     </numIndex>
                                 </items>
@@ -51,7 +51,7 @@
                     </script_type>
                     <script_file>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.script_file</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.script_file</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>file</internal_type>
@@ -66,16 +66,26 @@
                     </script_file>
                     <script_url>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.script_url</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.script_url</label>
                             <config>
                                 <type>input</type>
                                 <size>30</size>
                             </config>
                         </TCEforms>
                     </script_url>
+                </el>
+            </ROOT>
+        </sSource>
+        <sProcessing>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.sheet_title</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
                     <strip_non_body>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.strip_non_body</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.strip_non_body</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -83,7 +93,7 @@
                     </strip_non_body>
                     <strip_non_marked>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.strip_non_marked</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.strip_non_marked</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -91,7 +101,7 @@
                     </strip_non_marked>
                     <marker_start>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.marker_start</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.marker_start</label>
                             <config>
                                 <type>input</type>
                                 <size>20</size>
@@ -100,7 +110,7 @@
                     </marker_start>
                     <marker_end>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.marker_end</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.marker_end</label>
                             <config>
                                 <type>input</type>
                                 <size>20</size>
@@ -109,7 +119,7 @@
                     </marker_end>
                     <wrap_in_div>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.wrap_in_div</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.wrap_in_div</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -117,7 +127,7 @@
                     </wrap_in_div>
                     <replace_pid>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.replace_pid</label>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.replace_pid</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -125,6 +135,6 @@
                     </replace_pid>
                 </el>
             </ROOT>
-        </sDEF>
+        </sProcessing>
     </sheets>
 </T3DataStructure>
