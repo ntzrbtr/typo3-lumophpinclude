@@ -49,18 +49,24 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         $piFlexForm = $this->cObj->data['pi_flexform']; // Assign the flexform data to a local variable for easier access
 
         // Get the configuration values from flexform
-        $this->lConf['transfer_get'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'transfer_get', 'sDEF');
-        $this->lConf['transfer_post'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'transfer_post', 'sDEF');
-        $this->lConf['transfer_cookies'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'transfer_cookies', 'sDEF');
-        $this->lConf['script_type'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'script_type', 'sDEF');
-        $this->lConf['script_file'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'script_file', 'sDEF');
-        $this->lConf['script_url'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'script_url', 'sDEF');
-        $this->lConf['strip_non_body'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'strip_non_body', 'sDEF');
-        $this->lConf['strip_non_marked'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'strip_non_marked', 'sDEF');
-        $this->lConf['marker_start'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'marker_start', 'sDEF');
-        $this->lConf['marker_end'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'marker_end', 'sDEF');
-        $this->lConf['wrap_in_div'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'wrap_in_div', 'sDEF');
-        $this->lConf['replace_pid'] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'replace_pid', 'sDEF');
+        // 1. Source sheet
+        $this->lConf['source'] = array(
+            'transfer_get'      => $this->pi_getFFvalue($piFlexForm, 'transfer_get', 'sSource'),
+            'transfer_post'     => $this->pi_getFFvalue($piFlexForm, 'transfer_post', 'sSource'),
+            'transfer_cookies'  => $this->pi_getFFvalue($piFlexForm, 'transfer_cookies', 'sSource'),
+            'script_type'       => $this->pi_getFFvalue($piFlexForm, 'script_type', 'sSource'),
+            'script_file'       => $this->pi_getFFvalue($piFlexForm, 'script_file', 'sSource'),
+            'script_url'        => $this->pi_getFFvalue($piFlexForm, 'script_url', 'sSource'),
+        );
+        // 2. Processing sheet
+        $this->lConf['processing'] = array(
+            'strip_non_body'        => $this->pi_getFFvalue($piFlexForm, 'strip_non_body', 'sProcessing'),
+            'strip_non_marked'      => $this->pi_getFFvalue($piFlexForm, 'strip_non_marked', 'sProcessing'),
+            'strip_marker'          => $this->pi_getFFvalue($piFlexForm, 'strip_marker', 'sProcessing'),
+            'wrap_in_div'           => $this->pi_getFFvalue($piFlexForm, 'wrap_in_div', 'sProcessing'),
+            'rewrite_internal_link' => $this->pi_getFFvalue($piFlexForm, 'rewrite_internal_link', 'sProcessing'),
+            'rewrite_external_link' => $this->pi_getFFvalue($piFlexForm, 'rewrite_external_link', 'sProcessing'),
+        );
     }
 
     /**
@@ -82,7 +88,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Initialize content variable
         $content = '';
 
-        if ($this->lConf['script_type'] == 'file') {
+        if ($this->lConf['source']['script_type'] == 'file') {
             // Local script will be included directly
             $content = $this->doLocalCall();
         }
@@ -111,7 +117,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         
         // Code to include local scripts; thanks to Peter Klein <peter@umloud.dk>
         ob_start();
-        include('uploads/' . $this->lConf['script_file']);
+        include('uploads/' . $this->lConf['source']['script_file']);
         $content = ob_get_contents();
         ob_end_clean();
         
@@ -132,7 +138,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         $lGetvars = t3lib_div::_GET();
         
         // Determine URL for request
-        $baseUrl = $this->lConf['script_url']; // Base URL as set in flexform
+        $baseUrl = $this->lConf['source']['script_url']; // Base URL as set in flexform
         if (array_key_exists('tx_lumophpinclude_url', $lGetvars)
             && $lGetvars['tx_lumophpinclude_url'] != '') {
             // If parameter exists => decode URL
@@ -153,7 +159,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         }
         
         // Compose the full URL for the request
-        if ($this->lConf['transfer_get']) {
+        if ($this->lConf['source']['transfer_get']) {
             // Add GET variables to the base URL
             $params = '';
             foreach ($lGetvars as $key => $val) {
@@ -201,52 +207,25 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
      */
     function doPostProcessing($content) {
         // Strip non-body parts
-        if ($this->lConf['strip_non_body']) {
+        if ($this->lConf['processing']['strip_non_body']) {
             // Remove everything before and after body tag
-            preg_match('/<body\b[^>]*>\s*(.*?)\s*<\/body>/si', $content, $matches);
-            $content = ($matches[1]) ? $matches[1] : $content;
+            if (preg_match('/<body(\s[^>]*)?>\s*(.*?)\s*<\/body>/si', $content, $matches)) {
+                $content = $matches[2];
+            }
         }
 
         // Strip non-marked parts
-        if ($this->lConf['strip_non_marked']) {
-            // Strip start and end if marker are set in flexform
-            if ($this->lConf['marker_start'] != '') {
-                $content = preg_replace('/.*?<!-- *' . $this->lConf['marker_start'] . ' *-->/s', '$1', $content);
+        if ($this->lConf['processing']['strip_non_marked']) {
+            // Strip content outside marked area if marker is set in flexform
+            $marker = $this->lConf['processing']['strip_marker'];
+            if ($marker != '') {
+                $content = preg_replace('/^.*?<!--\s*' . $marker . '\s*-->/s', '', $content);
+                $content = preg_replace('/<!--\s*' . $marker . '\s*-->.*/s', '', $content);
             }
-            if ($this->lConf['marker_end'] != '') {
-                $content = preg_replace('/<!-- *' . $this->lConf['marker_end'] . ' *-->.*/s', '$1', $content);
-            }
         }
 
-        // Wrap all content in div with class
-        if ($this->lConf['wrap_in_div']) {
-            // Create classname based on name of PHP file
-            $path = explode("?", $this->lConf['script_file']);
-            $basename = basename($path[0]);
-
-            // Change any non letter, hyphen, or period to an underscore
-            $pattern = array(
-                '/[^\w]/s',
-                '/\./s'
-                );
-            $replace = array (
-                '_',
-                '_'
-                );
-            $class = preg_replace($pattern, $replace, $basename);
-            $content = '<div class="tx_lumophpinclude_' . $class . '">' . $content . '</div>';
-        }
-
-        // Replace marker for page id
-        if ($this->lConf['replace_pid_marker']) {
-            // Replace special markers.
-            $page_id = $GLOBALS['TSFE']->id;
-            $content = preg_replace('/###PID###/', $page_id, $content);
-        }
-        
-        // EXPERIMENTAL: URL REWRITING FOR LOCAL LINKS
-$rewriteLocalUrl = true;
-        if ($rewriteLocalUrl) {
+        // Do link rewriting of internal links (i.e. links relative to the currently included script)
+        if ($this->lConf['processing']['rewrite_internal_link']) {
             // Initialize arrays for replacing
             $lReplaces = array();
             
@@ -280,6 +259,18 @@ $rewriteLocalUrl = true;
             
             // Do the real replacement work using the above created array
             $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
+        }
+        
+        // Do link rewriting of external links (i.e. links that would leave the currently included script)
+        if ($this->lConf['processing']['rewrite_external_link']) {
+            // TODO: Implement external link rewriting similar to internal rewriting
+        }
+        
+        // Wrap all content in div with class
+        if ($this->lConf['processing']['wrap_in_div']) {
+            // Create classname using an MD5 hash of the included script
+            $classname = 'tx_lumophpinclude_' . md5($this->lConf['source']['script_file']);
+            $content = '<div class="' . $classname . '">' . $content . '</div>';
         }
                 
         // Return the processed content
