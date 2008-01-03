@@ -341,7 +341,7 @@ $rewriteLocalUrl = true;
                             $url = ($enclosure != '' ? substr($lUrlMatches[2], 0, -1) : $lUrlMatches[2]); // The URL of the link with the enclosure stripped
                             
                             // Add the URL as a parameter and make the URL relative to the current page (i.e. the TYPO3 page)
-                            $rewrittenUrl = $_SERVER['REQUEST_URI'] . '&tx_lumophpinclude_url=' . base64_encode($url);
+                            $rewrittenUrl = t3lib_div::linkThisScript(array('tx_lumophpinclude_url' => base64_encode($url)));
                             
                             // Add an entry to the replace array (used below to do the real work)
                             $lReplaces[$match] = str_replace($url, $rewrittenUrl, $match);
