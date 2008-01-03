@@ -24,6 +24,8 @@
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
 
+require_once(t3lib_extMgm::extPath('lumophpinclude') . 'lib/Snoopy.class.php');
+
 /**
  * Plugin 'PHP Include' for the 'lumophpinclude' extension.
  *
@@ -72,7 +74,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         $this->conf = $conf;
         $this->pi_setPiVarDefaults();
         $this->pi_loadLL();
-        $this->pi_USER_INT_obj = 1;    // Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
+        $this->pi_USER_INT_obj = 1; // Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
 
         // Read FlexForm data.
         $this->init();
@@ -90,49 +92,8 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
 
         }
 
-        // Strip non-body parts
-        if ($this->lConf['strip_non_body']) {
-            // Remove everything before and after body tag.
-            preg_match('/<body\b[^>]*>\s*(.*?)\s*<\/body>/si',    $content, $matches);
-            $content = ($matches[1]) ? $matches[1] : $content;
-        }
-
-        // Strip non-marked parts
-        if ($this->lConf['strip_non_marked']) {
-            // Strip start and end if marker are set in flexform.
-            if ($this->lConf['marker_start'] != '') {
-                $content = preg_replace('/.*?<!-- *' . $this->lConf['marker_start'] . ' *-->/s', '$1', $content);
-            }
-            if ($this->lConf['marker_end'] != '') {
-                $content = preg_replace('/<!-- *' . $this->lConf['marker_end'] . ' *-->.*/s', '$1', $content);
-            }
-        }
-
-        // Wrap all content in div with class
-        if ($this->lConf['wrap_in_div']) {
-            // Create classname based on name of PHP file.
-            $path = explode("?", $this->lConf['script_file']);
-            $basename = basename($path[0]);
-
-            // Change any non letter, hyphen, or period to an underscore.
-            $pattern = array(
-                '/[^\w]/s',
-                '/\./s'
-                );
-            $replace = array (
-                '_',
-                '_'
-                );
-            $class = preg_replace($pattern, $replace, $basename);
-            $content = '<div class="tx_lumophpinclude_' . $class . '">' . $content . '</div>';
-        }
-
-        // Replace marker for page id
-        if ($this->lConf['replace_pid_marker']) {
-            // Replace special markers.
-            $page_id = $GLOBALS['TSFE']->id;
-            $content = preg_replace('/###PID###/', $page_id, $content);
-        }
+        // Post-process fetched content
+        $content = $this->doPostProcessing($content);
 
         // Return content from script.
         return $this->pi_wrapInBaseClass($content);
@@ -164,6 +125,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
      * @return string Rendered content from included script
      */
     function doRemoteCall() {
+        /*
         // Turn GET parameters into single string.
         $temp_getvars = '';
         if ($this->lConf['transfer_get']) {
@@ -233,8 +195,102 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
 
         // Include script.
         $content = file_get_contents($url);
+        */
+
+        // Create new Snoopy object for doing remote calls
+        $oSnoopy = new Snoopy();
+        
+        // Compose URL for calling
+        $url = $this->lConf['script_url']; // Base URL as set in flexform
+        if ($this->lConf['transfer_get']) {
+            // Parse GET variables and append to one string
+            $getvars = t3lib_div::_GET();
+            $params = '';
+            foreach ($getvars as $key => $val) {
+                // Omit the id parameter as this is just the TYPO3 page id
+                if ($key == 'id') {
+                    continue;
+                }
+                
+                // Append all parameters to one string
+                if (is_array($val)) {
+                    foreach ($val as $key2 => $val2) {
+                        $params .= $key . '[]' . '=' . urlencode($val2) . '&';
+                    }
+                }
+                else {
+                    $params .= $key . '=' . urlencode($val) . '&';
+                }
+            }
+            
+            // Remove the last ampersand character
+            $params = substr($params, 0, -1);
+            
+            // Append parameter string to URL
+            $url .= ($params == '' ? '' : ((strstr($url, '?') ? '&' : '?') . $params));
+        }
+        
+        // Fetch the URL
+        if ($oSnoopy->fetch($url)) {
+            $content = $oSnoopy->results;
+        }
 
         // Return content for further processing.
+        return $content;
+    }
+    
+    /**
+     * Do post-processing of the fetched content, i.e. link rewriting, stripping, etc.
+     *
+     * @param string $content: The fetched content of the included script
+     * @return string Content after post-processing
+     */
+    function doPostProcessing($content) {
+        // Strip non-body parts
+        if ($this->lConf['strip_non_body']) {
+            // Remove everything before and after body tag.
+            preg_match('/<body\b[^>]*>\s*(.*?)\s*<\/body>/si', $content, $matches);
+            $content = ($matches[1]) ? $matches[1] : $content;
+        }
+
+        // Strip non-marked parts
+        if ($this->lConf['strip_non_marked']) {
+            // Strip start and end if marker are set in flexform.
+            if ($this->lConf['marker_start'] != '') {
+                $content = preg_replace('/.*?<!-- *' . $this->lConf['marker_start'] . ' *-->/s', '$1', $content);
+            }
+            if ($this->lConf['marker_end'] != '') {
+                $content = preg_replace('/<!-- *' . $this->lConf['marker_end'] . ' *-->.*/s', '$1', $content);
+            }
+        }
+
+        // Wrap all content in div with class
+        if ($this->lConf['wrap_in_div']) {
+            // Create classname based on name of PHP file.
+            $path = explode("?", $this->lConf['script_file']);
+            $basename = basename($path[0]);
+
+            // Change any non letter, hyphen, or period to an underscore.
+            $pattern = array(
+                '/[^\w]/s',
+                '/\./s'
+                );
+            $replace = array (
+                '_',
+                '_'
+                );
+            $class = preg_replace($pattern, $replace, $basename);
+            $content = '<div class="tx_lumophpinclude_' . $class . '">' . $content . '</div>';
+        }
+
+        // Replace marker for page id
+        if ($this->lConf['replace_pid_marker']) {
+            // Replace special markers.
+            $page_id = $GLOBALS['TSFE']->id;
+            $content = preg_replace('/###PID###/', $page_id, $content);
+        }
+        
+        // Return the processed content
         return $content;
     }
 
