@@ -163,8 +163,12 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             // Add GET variables to the base URL
             $params = '';
             foreach ($lGetvars as $key => $val) {
-                // Omit the id parameter as this is just the TYPO3 page id
-                if ($key == 'id') {
+                // Omit some parameters which are either TYPO3 or extension based
+                $lExcludeKeys = array(
+                    'id',
+                    'tx_lumophpinclude_url',
+                );
+                if (in_array($key, $lExcludeKeys)) {
                     continue;
                 }
                 
@@ -189,7 +193,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             // No more parameters to add => use base URL determined above
             $url = $baseUrl;
         }
-        
+
         // Fetch the URL
         if ($oSnoopy->fetch($url)) {
             $content = $oSnoopy->results;
@@ -245,8 +249,8 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                         // Process all URLs that are local links (i.e. that do not have a protocol specifier) 
                         $lUrlMatches = array();
                         if (preg_match('/^(?(?!(http|https|ftp):\/\/|mailto:|javascript:)(.*))$/', $url, $lUrlMatches)) {
-                            $url = ($enclosure != '' ? substr($lUrlMatches[2], 0, -1) : $lUrlMatches[2]); // The URL of the link with the enclosure stripped
-                            
+                            $url = $lUrlMatches[2]; // The URL of the link
+
                             // Add the URL as a parameter and make the URL relative to the current page (i.e. the TYPO3 page)
                             $rewrittenUrl = t3lib_div::linkThisScript(array('tx_lumophpinclude_url' => base64_encode($url)));
                             
@@ -256,7 +260,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                     }
                 }
             }
-            
+
             // Do the real replacement work using the above created array
             $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
         }
