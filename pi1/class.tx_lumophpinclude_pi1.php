@@ -60,12 +60,15 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         );
         // 2. Processing sheet
         $this->lConf['processing'] = array(
-            'strip_non_body'        => $this->pi_getFFvalue($piFlexForm, 'strip_non_body', 'sProcessing'),
-            'strip_non_marked'      => $this->pi_getFFvalue($piFlexForm, 'strip_non_marked', 'sProcessing'),
-            'strip_marker'          => $this->pi_getFFvalue($piFlexForm, 'strip_marker', 'sProcessing'),
-            'wrap_in_div'           => $this->pi_getFFvalue($piFlexForm, 'wrap_in_div', 'sProcessing'),
-            'rewrite_internal_link' => $this->pi_getFFvalue($piFlexForm, 'rewrite_internal_link', 'sProcessing'),
-            'rewrite_external_link' => $this->pi_getFFvalue($piFlexForm, 'rewrite_external_link', 'sProcessing'),
+            'strip_non_body'            => $this->pi_getFFvalue($piFlexForm, 'strip_non_body', 'sProcessing'),
+            'strip_non_marked'          => $this->pi_getFFvalue($piFlexForm, 'strip_non_marked', 'sProcessing'),
+            'strip_marker'              => $this->pi_getFFvalue($piFlexForm, 'strip_marker', 'sProcessing'),
+            'wrap_in_div'               => $this->pi_getFFvalue($piFlexForm, 'wrap_in_div', 'sProcessing'),
+            'rewrite_internal_link'     => $this->pi_getFFvalue($piFlexForm, 'rewrite_internal_link', 'sProcessing'),
+            /*
+            'rewrite_external_link'     => $this->pi_getFFvalue($piFlexForm, 'rewrite_external_link', 'sProcessing'),
+            */
+            'rewrite_local_resource'    => $this->pi_getFFvalue($piFlexForm, 'rewrite_local_resource', 'sProcessing'),
         );
     }
 
@@ -151,7 +154,9 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             }
             else {
                 // URL relative to original script
-                $baseUrl = substr($baseUrl, 0, strrpos($baseUrl, '/'));
+                if (($pos = strrpos($baseUrl, '/')) != strlen($baseUrl) - 1) {
+                    $baseUrl = substr($baseUrl, 0, $pos);
+                }
             }
             
             // Append the link to the base URL
@@ -265,12 +270,50 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
         }
         
+        /*
         // Do link rewriting of external links (i.e. links that would leave the currently included script)
         if ($this->lConf['processing']['rewrite_external_link']) {
             // TODO: Implement external link rewriting similar to internal rewriting
         }
+        */
         
-        // TODO: Implement rewriting of relative image and script sources (also add this in the flexform as an option)
+        // Rewrite local image and script resources
+        if ($this->lConf['processing']['rewrite_local_resource']) {
+            // Initialize arrays for replacing
+            $lReplaces = array();
+            
+            // Search all "src" attributes
+            $lMatches = array();
+            if (preg_match_all('/(src=(["\']?)([^\s>]*)\\2)/', $content, $lMatches) > 0) {
+                // Process matches
+                for ($i = 0; $i < count($lMatches[3]); $i++) {
+                    $match = $lMatches[1][$i];
+                    $src = $lMatches[3][$i];
+
+                    // Determine final URL based on the attribute's value
+                    $baseUrl = $this->lConf['source']['script_url'];
+                    if (substr($src, 0, 1) == '/') {
+                        // Absolute URL
+                        $baseUrl = preg_replace('/^(https?:\/\/[^\/]+).*/', '$1', $baseUrl);
+                    }
+                    else {
+                        // URL relative to original script
+                        if (($pos = strrpos($baseUrl, '/')) != strlen($baseUrl) - 1) {
+                            $baseUrl = substr($baseUrl, 0, $pos);
+                        }
+                    }
+                    
+                    // Append the attribute's value to the base URL
+                    $rewrittenSrc = $baseUrl . $src;
+                    
+                    // Add an entry to the replace array (used below to do the real work)
+                    $lReplaces[$match] = str_replace($src, $rewrittenSrc, $match);
+                }
+            }
+
+            // Do the real replacement work using the above created array
+            $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
+        }
         
         // Wrap all content in div with class
         if ($this->lConf['processing']['wrap_in_div']) {
