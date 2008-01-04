@@ -31,9 +31,9 @@
                             <config>
                                 <type>group</type>
                                 <internal_type>file</internal_type>
-                                <allowed>php,inc</allowed>
+                                <allowed>php,inc,txt</allowed>
                                 <max_size>500</max_size>
-                                <uploadfolder>uploads/</uploadfolder>
+                                <uploadfolder>uploads/tx_lumophpinclude/</uploadfolder>
                                 <maxitems>1</maxitems>
                                 <size>1</size>
                                 <selectedListStyle>width:180px</selectedListStyle>
