@@ -158,13 +158,10 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         }
         
         // Determine relative and absolute base URLs
-        if (($pos = strrpos($this->currentUrl, '/') + 1) != strlen($this->currentUrl)) {
-            $this->currentUrlBaseRelative = substr($this->currentUrl, 0, $pos);
-        }
-        else {
-            $this->currentUrlBaseRelative = $this->currentUrl;
-        }
-        $this->currentUrlBaseAbsolute = preg_replace('/^(https?:\/\/[^\/]+).*/', '$1', $this->currentUrl);
+        $lUrlParts = parse_url($this->currentUrl);
+        $baseUrl = $lUrlParts['scheme'] . '://' . $lUrlParts['host'];
+        $this->currentUrlBaseAbsolute = $baseUrl . '/';
+        $this->currentUrlBaseRelative = $baseUrl . (array_key_exists('path', $lUrlParts) ? ($lUrlParts['path'] != '' ? dirname($lUrlParts['path']) . '/' : '/') : '/');
         
         // Compose the full URL for the request
         if ($this->lConf['source']['transfer_get']) {
