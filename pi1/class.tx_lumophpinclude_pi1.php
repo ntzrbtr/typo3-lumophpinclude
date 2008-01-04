@@ -38,6 +38,10 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
     var $prefixId = 'tx_lumophpinclude_pi1'; // Same as class name
     var $scriptRelPath = 'pi1/class.tx_lumophpinclude_pi1.php'; // Path to this script relative to the extension directory
     var $extKey = 'lumophpinclude'; // The extension key
+    
+    var $currentUrl; // The URL that is currently used (is determined in doRemoteCall() below)
+    var $currentUrlBaseRelative; // The current URL as a base URL for relative links
+    var $currentUrlBaseAbsolute; // The current URL as a base URL for absolute links
 
     /**
      * Get configuration options from the flexform.
@@ -141,27 +145,24 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         $lGetvars = t3lib_div::_GET();
         
         // Determine URL for request
-        $baseUrl = $this->lConf['source']['script_url']; // Base URL as set in flexform
         if (array_key_exists('tx_lumophpinclude_url', $lGetvars)
             && $lGetvars['tx_lumophpinclude_url'] != '') {
             // If parameter exists => decode URL
-            $url = base64_decode($lGetvars['tx_lumophpinclude_url']);
-
-            // Determine final URL based on the link to follow
-            if (substr($url, 0, 1) == '/') {
-                // Absolute URL
-                $baseUrl = preg_replace('/^(https?:\/\/[^\/]+).*/', '$1', $baseUrl);
-            }
-            else {
-                // URL relative to original script
-                if (($pos = strrpos($baseUrl, '/')) != strlen($baseUrl) - 1) {
-                    $baseUrl = substr($baseUrl, 0, $pos);
-                }
-            }
-            
-            // Append the link to the base URL
-            $baseUrl .= $url;
+            $this->currentUrl = base64_decode($lGetvars['tx_lumophpinclude_url']);
         }
+        else {
+            // No parameter is set => use value from the flexform
+            $this->currentUrl = $this->lConf['source']['script_url'];
+        }
+        
+        // Determine relative and absolute base URLs
+        if (($pos = strrpos($this->currentUrl, '/') + 1) != strlen($this->currentUrl)) {
+            $this->currentUrlBaseRelative = substr($this->currentUrl, 0, $pos);
+        }
+        else {
+            $this->currentUrlBaseRelative = $this->currentUrl;
+        }
+        $this->currentUrlBaseAbsolute = preg_replace('/^(https?:\/\/[^\/]+).*/', '$1', $this->currentUrl);
         
         // Compose the full URL for the request
         if ($this->lConf['source']['transfer_get']) {
@@ -192,11 +193,11 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
             $params = substr($params, 0, -1);
             
             // Append parameter string to base URL
-            $url = $baseUrl . ($params == '' ? '' : ((strstr($baseUrl, '?') ? '&' : '?') . $params));
+            $url = $this->currentUrl . ($params == '' ? '' : ((strstr($baseUrl, '?') ? '&' : '?') . $params));
         }
         else {
             // No more parameters to add => use base URL determined above
-            $url = $baseUrl;
+            $url = $this->currentUrl;
         }
 
         // Fetch the URL
@@ -255,9 +256,20 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                         $lUrlMatches = array();
                         if (preg_match('/^(?(?!(http|https|ftp):\/\/|mailto:|javascript:)(.*))$/', $url, $lUrlMatches)) {
                             $url = $lUrlMatches[2]; // The URL of the link
+                            
+                            // Determine final URL based on the link to follow
+                            $baseUrl = $this->currentUrl; // Base URL as determined in doRemoteCall()
+                            if (substr($url, 0, 1) == '/') {
+                                // Absolute URL
+                                $rewrittenUrl = $this->currentUrlBaseAbsolute . $url;
+                            }
+                            else {
+                                // URL relative to original script
+                                $rewrittenUrl = $this->currentUrlBaseRelative . $url;
+                            }
 
                             // Add the URL as a parameter and make the URL relative to the current page (i.e. the TYPO3 page)
-                            $rewrittenUrl = t3lib_div::linkThisScript(array('tx_lumophpinclude_url' => base64_encode($url)));
+                            $rewrittenUrl = t3lib_div::linkThisScript(array('tx_lumophpinclude_url' => base64_encode($rewrittenUrl)));
                             
                             // Add an entry to the replace array (used below to do the real work)
                             $lReplaces[$match] = str_replace($url, $rewrittenUrl, $match);
@@ -289,22 +301,22 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                 for ($i = 0; $i < count($lMatches[3]); $i++) {
                     $match = $lMatches[1][$i];
                     $src = $lMatches[3][$i];
+                    
+                    // Skip non-local resources
+                    if (preg_match('/^((http|https|ftp):\/\/|mailto:|javascript:)/', $src)) {
+                        continue;
+                    }
 
                     // Determine final URL based on the attribute's value
-                    $baseUrl = $this->lConf['source']['script_url'];
+                    $baseUrl = $this->currentUrl;
                     if (substr($src, 0, 1) == '/') {
                         // Absolute URL
-                        $baseUrl = preg_replace('/^(https?:\/\/[^\/]+).*/', '$1', $baseUrl);
+                        $rewrittenSrc = $this->currentUrlBaseAbsolute . $src;
                     }
                     else {
                         // URL relative to original script
-                        if (($pos = strrpos($baseUrl, '/')) != strlen($baseUrl) - 1) {
-                            $baseUrl = substr($baseUrl, 0, $pos);
-                        }
+                        $rewrittenSrc = $this->currentUrlBaseRelative . $src;
                     }
-                    
-                    // Append the attribute's value to the base URL
-                    $rewrittenSrc = $baseUrl . $src;
                     
                     // Add an entry to the replace array (used below to do the real work)
                     $lReplaces[$match] = str_replace($src, $rewrittenSrc, $match);
