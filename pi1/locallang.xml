@@ -35,23 +35,28 @@
         </languageKey>
         <languageKey index="de" type="array">
             <!-- Language keys for sheet sSource -->
+            <label index="lumophpinclude.pi1.flexform.ssource.sheet_title">Quellskript</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.script_type">Art des Include-Skriptes</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.script_type_file">Lokales Skript</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.script_type_url">URL über HTTP</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.script_file">Lokales PHP-Skript</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.script_url">URL des PHP-Skripts</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.transfer_get">GET-Parameter übergeben</label>
             <!--
-            <label index="lumophpinclude.pi1.flexform.sheet_general">Allgemeine Einstellungen</label>
-            <label index="lumophpinclude.pi1.flexform.transfer_get">GET-Parameter übergeben</label>
-            <label index="lumophpinclude.pi1.flexform.transfer_post">POST-Parameter übergeben</label>
-            <label index="lumophpinclude.pi1.flexform.transfer_cookies">Cookie-Daten übergeben</label>
-            <label index="lumophpinclude.pi1.flexform.script_type">Art des Include-Skriptes</label>
-            <label index="lumophpinclude.pi1.flexform.script_type_file">Lokales Skript</label>
-            <label index="lumophpinclude.pi1.flexform.script_type_url">URL über HTTP</label>
-            <label index="lumophpinclude.pi1.flexform.script_file">Lokales PHP-Skript</label>
-            <label index="lumophpinclude.pi1.flexform.script_url">URL des PHP-Skripts</label>
-            <label index="lumophpinclude.pi1.flexform.strip_non_body">Entferne nicht-Body-Teile</label>
-            <label index="lumophpinclude.pi1.flexform.strip_non_marked">Entferne nicht-markierte Teile</label>
-            <label index="lumophpinclude.pi1.flexform.marker_start">Start-Marker</label>
-            <label index="lumophpinclude.pi1.flexform.marker_end">End-Marker</label>
-            <label index="lumophpinclude.pi1.flexform.wrap_in_div">Ausgabe in div-Tag wrappen</label>
-            <label index="lumophpinclude.pi1.flexform.replace_pid">Marker für Seiten-ID ersetzen</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.transfer_post">POST-Parameter übergeben</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.transfer_cookies">Cookie-Daten übergeben</label>
             -->
+            <!-- Language keys for sheet sProcessing -->
+            <label index="lumophpinclude.pi1.flexform.sprocessing.sheet_title">Verarbeitung</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.strip_non_body">Entferne nicht-Body-Teile</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.strip_non_marked">Entferne nicht-markierte Teile</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.strip_marker">Marker für Entfernen</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.wrap_in_div">Ausgabe in div-Tag wrappen</label>
+            <label index="lumophpinclude.pi1.flexform.sprocessing.rewrite_internal_link">Interne links ändern</label>
+            <!--
+            <label index="lumophpinclude.pi1.flexform.sprocessing.rewrite_external_link">Externe Links ändern</label>
+            -->
+            <label index="lumophpinclude.pi1.flexform.sprocessing.rewrite_local_resource">Lokale Ressourcen ändern (z.B. URL von Bildern)</label>
         </languageKey>
     </data>
     <orig_hash type="array">
