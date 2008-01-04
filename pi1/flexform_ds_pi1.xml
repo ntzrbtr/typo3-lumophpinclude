@@ -124,6 +124,7 @@
                             </config>
                         </TCEforms>
                     </rewrite_internal_link>
+                    <!--
                     <rewrite_external_link>
                         <TCEforms>
                             <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.rewrite_external_link</label>
@@ -132,6 +133,15 @@
                             </config>
                         </TCEforms>
                     </rewrite_external_link>
+                    -->
+                    <rewrite_local_resource>
+                        <TCEforms>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.sprocessing.rewrite_local_resource</label>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </rewrite_local_resource>
                 </el>
             </ROOT>
         </sProcessing>
