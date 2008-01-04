@@ -233,98 +233,101 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                 $content = preg_replace('/<!--\s*' . $marker . '\s*-->.*/s', '', $content);
             }
         }
-
-        // Do link rewriting of internal links (i.e. links relative to the currently included script)
-        if ($this->lConf['processing']['rewrite_internal_link']) {
-            // Initialize arrays for replacing
-            $lReplaces = array();
-            
-            // Search all links
-            $lMatches = array();
-            if (preg_match_all('/(<a[^>]+>)/', $content, $lMatches) > 0) {
-                // Process matches
-                $lMatches = $lMatches[1];
-                foreach ($lMatches as $match) {                    
-                    // Search for all links with a "href" attribute
-                    $lSubmatches = array();
-                    if (preg_match('/(href=(["\']?)([^\s>]*)\\2)/', $match, $lSubmatches)) {
-                        $submatch = $lSubmatches[1]; // The whole match
-                        $enclosure = $lSubmatches[2]; // The enclosure of the attribute value if present
-                        $url = $lSubmatches[3]; // The URL of the link
-
-                        // Process all URLs that are local links (i.e. that do not have a protocol specifier) 
-                        $lUrlMatches = array();
-                        if (preg_match('/^(?(?!(http|https|ftp):\/\/|mailto:|javascript:)(.*))$/', $url, $lUrlMatches)) {
-                            $url = $lUrlMatches[2]; // The URL of the link
-                            
-                            // Determine final URL based on the link to follow
-                            $baseUrl = $this->currentUrl; // Base URL as determined in doRemoteCall()
-                            if (substr($url, 0, 1) == '/') {
-                                // Absolute URL
-                                $rewrittenUrl = $this->currentUrlBaseAbsolute . $url;
+        
+        // Link rewriting and resource rewriting is only done for remote scripts
+        if ($this->lConf['source']['script_type'] == 'url') {
+            // Do link rewriting of internal links (i.e. links relative to the currently included script)
+            if ($this->lConf['processing']['rewrite_internal_link']) {
+                // Initialize arrays for replacing
+                $lReplaces = array();
+                
+                // Search all links
+                $lMatches = array();
+                if (preg_match_all('/(<a[^>]+>)/', $content, $lMatches) > 0) {
+                    // Process matches
+                    $lMatches = $lMatches[1];
+                    foreach ($lMatches as $match) {                    
+                        // Search for all links with a "href" attribute
+                        $lSubmatches = array();
+                        if (preg_match('/(href=(["\']?)([^\s>]*)\\2)/', $match, $lSubmatches)) {
+                            $submatch = $lSubmatches[1]; // The whole match
+                            $enclosure = $lSubmatches[2]; // The enclosure of the attribute value if present
+                            $url = $lSubmatches[3]; // The URL of the link
+    
+                            // Process all URLs that are local links (i.e. that do not have a protocol specifier) 
+                            $lUrlMatches = array();
+                            if (preg_match('/^(?(?!(http|https|ftp):\/\/|mailto:|javascript:)(.*))$/', $url, $lUrlMatches)) {
+                                $url = $lUrlMatches[2]; // The URL of the link
+                                
+                                // Determine final URL based on the link to follow
+                                $baseUrl = $this->currentUrl; // Base URL as determined in doRemoteCall()
+                                if (substr($url, 0, 1) == '/') {
+                                    // Absolute URL
+                                    $rewrittenUrl = $this->currentUrlBaseAbsolute . $url;
+                                }
+                                else {
+                                    // URL relative to original script
+                                    $rewrittenUrl = $this->currentUrlBaseRelative . $url;
+                                }
+    
+                                // Add the URL as a parameter and make the URL relative to the current page (i.e. the TYPO3 page)
+                                $rewrittenUrl = t3lib_div::linkThisScript(array('tx_lumophpinclude_url' => base64_encode($rewrittenUrl)));
+                                
+                                // Add an entry to the replace array (used below to do the real work)
+                                $lReplaces[$match] = str_replace($url, $rewrittenUrl, $match);
                             }
-                            else {
-                                // URL relative to original script
-                                $rewrittenUrl = $this->currentUrlBaseRelative . $url;
-                            }
-
-                            // Add the URL as a parameter and make the URL relative to the current page (i.e. the TYPO3 page)
-                            $rewrittenUrl = t3lib_div::linkThisScript(array('tx_lumophpinclude_url' => base64_encode($rewrittenUrl)));
-                            
-                            // Add an entry to the replace array (used below to do the real work)
-                            $lReplaces[$match] = str_replace($url, $rewrittenUrl, $match);
                         }
                     }
                 }
+    
+                // Do the real replacement work using the above created array
+                $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
             }
-
-            // Do the real replacement work using the above created array
-            $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
-        }
-        
-        /*
-        // Do link rewriting of external links (i.e. links that would leave the currently included script)
-        if ($this->lConf['processing']['rewrite_external_link']) {
-            // TODO: Implement external link rewriting similar to internal rewriting
-        }
-        */
-        
-        // Rewrite local image and script resources
-        if ($this->lConf['processing']['rewrite_local_resource']) {
-            // Initialize arrays for replacing
-            $lReplaces = array();
             
-            // Search all "src" attributes
-            $lMatches = array();
-            if (preg_match_all('/(src=(["\']?)([^\s>]*)\\2)/', $content, $lMatches) > 0) {
-                // Process matches
-                for ($i = 0; $i < count($lMatches[3]); $i++) {
-                    $match = $lMatches[1][$i];
-                    $src = $lMatches[3][$i];
-                    
-                    // Skip non-local resources
-                    if (preg_match('/^((http|https|ftp):\/\/|mailto:|javascript:)/', $src)) {
-                        continue;
-                    }
-
-                    // Determine final URL based on the attribute's value
-                    $baseUrl = $this->currentUrl;
-                    if (substr($src, 0, 1) == '/') {
-                        // Absolute URL
-                        $rewrittenSrc = $this->currentUrlBaseAbsolute . $src;
-                    }
-                    else {
-                        // URL relative to original script
-                        $rewrittenSrc = $this->currentUrlBaseRelative . $src;
-                    }
-                    
-                    // Add an entry to the replace array (used below to do the real work)
-                    $lReplaces[$match] = str_replace($src, $rewrittenSrc, $match);
-                }
+            /*
+            // Do link rewriting of external links (i.e. links that would leave the currently included script)
+            if ($this->lConf['processing']['rewrite_external_link']) {
+                // TODO: Implement external link rewriting similar to internal rewriting
             }
-
-            // Do the real replacement work using the above created array
-            $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
+            */
+            
+            // Rewrite local image and script resources
+            if ($this->lConf['processing']['rewrite_local_resource']) {
+                // Initialize arrays for replacing
+                $lReplaces = array();
+                
+                // Search all "src" attributes
+                $lMatches = array();
+                if (preg_match_all('/(src=(["\']?)([^\s>]*)\\2)/', $content, $lMatches) > 0) {
+                    // Process matches
+                    for ($i = 0; $i < count($lMatches[3]); $i++) {
+                        $match = $lMatches[1][$i];
+                        $src = $lMatches[3][$i];
+                        
+                        // Skip non-local resources
+                        if (preg_match('/^((http|https|ftp):\/\/|mailto:|javascript:)/', $src)) {
+                            continue;
+                        }
+    
+                        // Determine final URL based on the attribute's value
+                        $baseUrl = $this->currentUrl;
+                        if (substr($src, 0, 1) == '/') {
+                            // Absolute URL
+                            $rewrittenSrc = $this->currentUrlBaseAbsolute . $src;
+                        }
+                        else {
+                            // URL relative to original script
+                            $rewrittenSrc = $this->currentUrlBaseRelative . $src;
+                        }
+                        
+                        // Add an entry to the replace array (used below to do the real work)
+                        $lReplaces[$match] = str_replace($src, $rewrittenSrc, $match);
+                    }
+                }
+    
+                // Do the real replacement work using the above created array
+                $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
+            }
         }
         
         // Wrap all content in div with class
