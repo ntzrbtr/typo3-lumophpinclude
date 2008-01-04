@@ -1,5 +1,10 @@
 (add new changes on top of this file)
 
+08-01-04 Thomas Off <typo3@retiolum.de>
+
+    * Replaced the buggy inclusion of remote files via file_get_contents() by a real HTTP request (thereby dropping POST and COOKIE support temporarily)
+    * Added possibility to rewrite the URLs of internal links and local resources
+
 06-04-24 Thomas Off, LumoNet oHG <t.off@lumonet.de>
 
     * Fixed erroneus behaviour when including locaL files (thanks to Peter Klein <peter@umloud.dk>
