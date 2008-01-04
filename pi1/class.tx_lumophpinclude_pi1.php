@@ -55,12 +55,14 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Get the configuration values from flexform
         // 1. Source sheet
         $this->lConf['source'] = array(
-            'transfer_get'      => $this->pi_getFFvalue($piFlexForm, 'transfer_get', 'sSource'),
-            'transfer_post'     => $this->pi_getFFvalue($piFlexForm, 'transfer_post', 'sSource'),
-            'transfer_cookies'  => $this->pi_getFFvalue($piFlexForm, 'transfer_cookies', 'sSource'),
             'script_type'       => $this->pi_getFFvalue($piFlexForm, 'script_type', 'sSource'),
             'script_file'       => $this->pi_getFFvalue($piFlexForm, 'script_file', 'sSource'),
             'script_url'        => $this->pi_getFFvalue($piFlexForm, 'script_url', 'sSource'),
+            'transfer_get'      => $this->pi_getFFvalue($piFlexForm, 'transfer_get', 'sSource'),
+            /*
+            'transfer_post'     => $this->pi_getFFvalue($piFlexForm, 'transfer_post', 'sSource'),
+            'transfer_cookies'  => $this->pi_getFFvalue($piFlexForm, 'transfer_cookies', 'sSource'),
+            */
         );
         // 2. Processing sheet
         $this->lConf['processing'] = array(
