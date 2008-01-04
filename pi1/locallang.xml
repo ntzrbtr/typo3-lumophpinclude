@@ -26,7 +26,10 @@
             <label index="lumophpinclude.pi1.flexform.sprocessing.strip_marker">Marker for stripping</label>
             <label index="lumophpinclude.pi1.flexform.sprocessing.wrap_in_div">Wrap output into div</label>
             <label index="lumophpinclude.pi1.flexform.sprocessing.rewrite_internal_link">Rewrite internal links</label>
+            <!--
             <label index="lumophpinclude.pi1.flexform.sprocessing.rewrite_external_link">Rewrite external links</label>
+            -->
+            <label index="lumophpinclude.pi1.flexform.sprocessing.rewrite_local_resource">Rewrite local resources (e.g. of images)</label>
         </languageKey>
         <languageKey index="de" type="array">
             <!-- Language keys for sheet sSource -->
