@@ -7,30 +7,6 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    <transfer_get>
-                        <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_get</label>
-                            <config>
-                                <type>check</type>
-                            </config>
-                        </TCEforms>
-                    </transfer_get>
-                    <transfer_post>
-                        <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_post</label>
-                            <config>
-                                <type>check</type>
-                            </config>
-                        </TCEforms>
-                    </transfer_post>
-                    <transfer_cookies>
-                        <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_cookies</label>
-                            <config>
-                                <type>check</type>
-                            </config>
-                        </TCEforms>
-                    </transfer_cookies>
                     <script_type>
                         <TCEforms>
                             <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.script_type</label>
@@ -73,6 +49,32 @@
                             </config>
                         </TCEforms>
                     </script_url>
+                    <transfer_get>
+                        <TCEforms>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_get</label>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </transfer_get>
+                    <!--
+                    <transfer_post>
+                        <TCEforms>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_post</label>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </transfer_post>
+                    <transfer_cookies>
+                        <TCEforms>
+                            <label>LLL:EXT:lumophpinclude/pi1/locallang.xml:lumophpinclude.pi1.flexform.ssource.transfer_cookies</label>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </transfer_cookies>
+                    -->
                 </el>
             </ROOT>
         </sSource>

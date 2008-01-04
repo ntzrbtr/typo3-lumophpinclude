@@ -11,14 +11,16 @@
         <languageKey index="default" type="array">
             <!-- Language keys for sheet sSource -->
             <label index="lumophpinclude.pi1.flexform.ssource.sheet_title">Include source</label>
-            <label index="lumophpinclude.pi1.flexform.ssource.transfer_get">Transfer GET parameters</label>
-            <label index="lumophpinclude.pi1.flexform.ssource.transfer_post">Transfer POST parameters</label>
-            <label index="lumophpinclude.pi1.flexform.ssource.transfer_cookies">Transfer cookie data</label>
             <label index="lumophpinclude.pi1.flexform.ssource.script_type">Type of script to include</label>
             <label index="lumophpinclude.pi1.flexform.ssource.script_type_file">Local script</label>
             <label index="lumophpinclude.pi1.flexform.ssource.script_type_url">URL via HTTP</label>
             <label index="lumophpinclude.pi1.flexform.ssource.script_file">Local PHP script</label>
             <label index="lumophpinclude.pi1.flexform.ssource.script_url">URL of PHP script</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.transfer_get">Transfer GET parameters</label>
+            <!--
+            <label index="lumophpinclude.pi1.flexform.ssource.transfer_post">Transfer POST parameters</label>
+            <label index="lumophpinclude.pi1.flexform.ssource.transfer_cookies">Transfer cookie data</label>
+            -->
             <!-- Language keys for sheet sProcessing -->
             <label index="lumophpinclude.pi1.flexform.sprocessing.sheet_title">Processing options</label>
             <label index="lumophpinclude.pi1.flexform.sprocessing.strip_non_body">Strip non-body parts</label>
