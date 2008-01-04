@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array(
     'loadOrder' => '',
     'module' => '',
     'state' => 'stable',
-    'uploadfolder' => 0,
+    'uploadfolder' => 1,
     'createDirs' => '',
     'modify_tables' => '',
     'clearCacheOnLoad' => 0,
@@ -34,8 +34,8 @@ $EM_CONF[$_EXTKEY] = array(
     'version' => '1.0.3',
     'constraints' => array(
         'depends' => array(
-            'typo3' => '',
-            'php' => '',
+            'typo3' => '4.0',
+            'php' => '4.4.0',
         ),
         'conflicts' => array(
         ),
