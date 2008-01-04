@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext: "lumophpinclude"
 #
-# Auto generated 04-01-2008 12:06
+# Auto generated 04-01-2008 12:08
 #
 # Manual updates:
 # Only the data in the array - anything else is removed by next write.
@@ -31,7 +31,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
-	'version' => '1.0.3',
+	'version' => '1.1.0',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '4.0.0-4.1.99',
