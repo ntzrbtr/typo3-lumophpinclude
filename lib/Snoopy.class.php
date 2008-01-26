@@ -871,6 +871,7 @@ class Snoopy
 				// look for :// in the Location header to see if hostname is included
 				if(!preg_match("|\:\/\/|",$matches[2]))
 				{
+				    /*
 					// no host in the path, so prepend
 					$this->_redirectaddr = $URI_PARTS["scheme"]."://".$this->host.":".$this->port;
 					// eliminate double slash
@@ -878,6 +879,23 @@ class Snoopy
 							$this->_redirectaddr .= "/".$matches[2];
 					else
 							$this->_redirectaddr .= $matches[2];
+                    */
+
+				    // Determine base URL for composing the redirect path
+				    $lUrlParts = parse_url($URI);
+				    $urlPath = (array_key_exists('path', $lUrlParts) ? preg_replace('/[^\/]*$/', '', $lUrlParts['path']) : '');
+                    $baseUrlAbsolute = $lUrlParts['scheme'] . '://' . $lUrlParts['host'];
+                    $baseUrlRelative = $baseUrlAbsolute . $urlPath;
+                    
+                    // Compose full redirect URL for the local redirect URL
+				    if(preg_match("|^/|",$matches[2])) {
+				        // Absolute redirect: add path only to base URL
+				        $this->_redirectaddr = $baseUrlAbsolute . $matches[2];
+				    }
+				    else {
+				        // Relative redirect: add path to relative base URL
+				        $this->_redirectaddr = $baseUrlRelative . $matches[2];
+				    }
 				}
 				else
 					$this->_redirectaddr = $matches[2];
