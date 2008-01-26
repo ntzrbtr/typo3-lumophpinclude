@@ -158,7 +158,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         }
         
         // Determine relative and absolute base URLs
-        $lUrlParts = parse_url($URI);
+        $lUrlParts = parse_url($this->currentUrl);
         $urlPath = (array_key_exists('path', $lUrlParts) ? preg_replace('/[^\/]*$/', '', $lUrlParts['path']) : '');
         $baseUrl = $lUrlParts['scheme'] . '://' . $lUrlParts['host'];
         $this->currentUrlBaseAbsolute = $baseUrl . '/';
@@ -279,7 +279,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                         }
                     }
                 }
-    
+
                 // Do the real replacement work using the above created array
                 $content = str_replace(array_keys($lReplaces), array_values($lReplaces), $content);
             }
