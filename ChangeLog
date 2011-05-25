@@ -1,5 +1,10 @@
 (add new changes on top of this file)
 
+12-05-25 Cristian Buja <cristian@intera.it>
+
+    * Fixed miscalculation of the base URLs port
+    * Uses case insensitive for search all links to rewrite   
+
 08-01-04 Thomas Off <typo3@retiolum.de>
 
     * Replaced the buggy inclusion of remote files via file_get_contents() by a real HTTP request (thereby dropping POST and COOKIE support temporarily)

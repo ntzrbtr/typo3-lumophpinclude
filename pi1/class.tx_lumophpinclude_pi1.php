@@ -160,7 +160,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Determine relative and absolute base URLs
         $lUrlParts = parse_url($this->currentUrl);
         $urlPath = (array_key_exists('path', $lUrlParts) ? preg_replace('/[^\/]*$/', '', $lUrlParts['path']) : '');
-        $urlPort = (array_key_exists('port', $lUrlParts) ? ':' . $lUrlParts['path'] : '');
+        $urlPort = (array_key_exists('port', $lUrlParts) ? ':' . $lUrlParts['port'] : '');
         $baseUrl = $lUrlParts['scheme'] . '://' . $lUrlParts['host'] . $urlPort;
         $this->currentUrlBaseAbsolute = $baseUrl . '/';
         $this->currentUrlBaseRelative = $baseUrl . $urlPath;
@@ -244,13 +244,13 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                 
                 // Search all links
                 $lMatches = array();
-                if (preg_match_all('/(<a[^>]+>)/', $content, $lMatches) > 0) {
+                if (preg_match_all('/(<a[^>]+>)/i', $content, $lMatches) > 0) {
                     // Process matches
                     $lMatches = $lMatches[1];
                     foreach ($lMatches as $match) {                    
                         // Search for all links with a "href" attribute
                         $lSubmatches = array();
-                        if (preg_match('/(href=(["\']?)([^\s>]*)\\2)/', $match, $lSubmatches)) {
+                        if (preg_match('/(href=(["\']?)([^\s>]*)\\2)/i', $match, $lSubmatches)) {
                             $submatch = $lSubmatches[1]; // The whole match
                             $enclosure = $lSubmatches[2]; // The enclosure of the attribute value if present
                             $url = $lSubmatches[3]; // The URL of the link
