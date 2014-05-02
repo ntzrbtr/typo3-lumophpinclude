@@ -127,7 +127,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Code to include local scripts; thanks to Peter Klein <peter@umloud.dk>
         ob_start();
         //include('uploads/' . $this->lConf['source']['script_file']);
-		include('uploads/tx_lumophpinclude/' . $this->lConf['source']['script_file']);
+        include('uploads/tx_lumophpinclude/' . $this->lConf['source']['script_file']);
         $content = ob_get_contents();
         ob_end_clean();
         
@@ -150,8 +150,21 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
         // Determine URL for request
         if (array_key_exists('tx_lumophpinclude_url', $lGetvars)
             && $lGetvars['tx_lumophpinclude_url'] != '') {
-            // If parameter exists => decode URL
-            $this->currentUrl = base64_decode($lGetvars['tx_lumophpinclude_url']);
+            // If parameter exists => decode URL and check signature
+            $url = base64_decode($lGetvars['tx_lumophpinclude_url']);
+            if (array_key_exists('tx_lumophpinclude_signature', $lGetvars)
+                && $lGetvars['tx_lumophpinclude_signature'] != '') {
+                    $signature = $lGetvars['tx_lumophpinclude_signature'];
+                    if (t3lib_div::hmac($url) !== $signature) {
+                        return '<p>Signature check for URL was not passed – request denied due to possible security issues.</p>';
+                    }
+                    else {
+                        $this->currentUrl = $url;
+                    }
+            }
+            else {
+                return '<p>No signature found in URL – request denied due to possible security issues.</p>';
+            }
         }
         else {
             // No parameter is set => use value from the flexform
@@ -175,6 +188,7 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                 $lExcludeKeys = array(
                     'id',
                     'tx_lumophpinclude_url',
+                    'tx_lumophpinclude_signature',
                 );
                 if (in_array($key, $lExcludeKeys)) {
                     continue;
@@ -273,7 +287,10 @@ class tx_lumophpinclude_pi1 extends tslib_pibase {
                                 }
     
                                 // Add the URL as a parameter and make the URL relative to the current page (i.e. the TYPO3 page)
-                                $rewrittenUrl = t3lib_div::linkThisScript(array('tx_lumophpinclude_url' => base64_encode($rewrittenUrl)));
+                                $rewrittenUrl = t3lib_div::linkThisScript(array(
+                                    'tx_lumophpinclude_url' => base64_encode($rewrittenUrl),
+                                    'tx_lumophpinclude_signature' => t3lib_div::hmac($rewrittenUrl),
+                                ));
                                 
                                 // Add an entry to the replace array (used below to do the real work)
                                 $lReplaces[$match] = str_replace($url, $rewrittenUrl, $match);
