@@ -15,7 +15,7 @@ LumoNet PHP Include
 .. only:: html
 
 	:Classification:
-		extension_key
+		lumophpinclude
 
 	:Version:
 		|release|
@@ -24,10 +24,9 @@ LumoNet PHP Include
 		en
 
 	:Description:
-		enter description.
+		This extension lets you include complete external PHP solutions (e.g. message boards or image galleries) into TYPO3. With this extension you are able to select a local PHP script as well as a call a script written in any language on a remote server via a real HTTP request.
 
 	:Keywords:
-		comma,separated,list,keywords
 
 	:Copyright:
 		2015
@@ -36,7 +35,7 @@ LumoNet PHP Include
 		Thomas Off
 
 	:Email:
-		author@example.com
+		retiolum@googlemail.com
 
 	:License:
 		This document is published under the Open Publication License

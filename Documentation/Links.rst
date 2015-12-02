@@ -12,13 +12,10 @@ Links
 -----
 
 :TER:
-	https://typo3.org/extensions/repository/view/<extension key>
+	https://typo3.org/extensions/repository/view/lumophpinclude
 
 :Bug Tracker:
-	https://forge.typo3.org/projects/extension-<extension key>/issues
+	https://forge.typo3.org/projects/extension-lumophpinclude/issues
 
 :Git Repository:
-	https://github.com/<username>/<extension key>
-
-:Contact:
-	`@<username> <https://twitter.com/your-username>`__
+	https://github.com/retiolum/typo3-lumophpinclude
