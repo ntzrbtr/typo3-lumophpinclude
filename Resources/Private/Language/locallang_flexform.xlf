@@ -9,46 +9,46 @@
 			<generator>LFEditor</generator>
 		</header>
 		<body>
-			<trans-unit id="lumophpinclude.pi1.flexform.sprocessing.rewrite_internal_link">
+			<trans-unit id="pi1.sprocessing.rewrite_internal_link">
 				<source>Rewrite internal links</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.sprocessing.rewrite_local_resource">
+			<trans-unit id="pi1.sprocessing.rewrite_local_resource">
 				<source>Rewrite local resources (e.g. of images)</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.sprocessing.sheet_title">
+			<trans-unit id="pi1.sprocessing.sheet_title">
 				<source>Processing options</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.sprocessing.strip_marker">
+			<trans-unit id="pi1.sprocessing.strip_marker">
 				<source>Marker for stripping</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.sprocessing.strip_non_body">
+			<trans-unit id="pi1.sprocessing.strip_non_body">
 				<source>Strip non-body parts</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.sprocessing.strip_non_marked">
+			<trans-unit id="pi1.sprocessing.strip_non_marked">
 				<source>Strip content outside markers</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.sprocessing.wrap_in_div">
+			<trans-unit id="pi1.sprocessing.wrap_in_div">
 				<source>Wrap output into div</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.ssource.script_file">
+			<trans-unit id="pi1.ssource.script_file">
 				<source>Local PHP script</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.ssource.script_type">
+			<trans-unit id="pi1.ssource.script_type">
 				<source>Type of script to include</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.ssource.script_type_file">
+			<trans-unit id="pi1.ssource.script_type_file">
 				<source>Local script</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.ssource.script_type_url">
+			<trans-unit id="pi1.ssource.script_type_url">
 				<source>URL via HTTP</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.ssource.script_url">
+			<trans-unit id="pi1.ssource.script_url">
 				<source>URL of PHP script</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.ssource.sheet_title">
+			<trans-unit id="pi1.ssource.sheet_title">
 				<source>Include source</source>
 			</trans-unit>
-			<trans-unit id="lumophpinclude.pi1.flexform.ssource.transfer_get">
+			<trans-unit id="pi1.ssource.transfer_get">
 				<source>Transfer GET parameters</source>
 			</trans-unit>
 		</body>
