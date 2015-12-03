@@ -9,9 +9,6 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY . '_pi1'] =
 // Add the frontend plugin.
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array('LLL:EXT:lumophpinclude/locallang_db.php:tt_content.list_type_pi1', $_EXTKEY . '_pi1'), 'list_type');
 
-// Add static TypoScript.
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'pi1/static/', 'PHP Include');
-
 // Use FlexForms for the plugin.
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY . '_pi1'] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($_EXTKEY . '_pi1', 'FILE:EXT:lumophpinclude/pi1/flexform_ds_pi1.xml');
