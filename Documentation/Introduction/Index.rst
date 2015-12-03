@@ -9,16 +9,14 @@
 What does it do?
 ================
 
-First of all, if you have any idea how this template can be improved, please, drop a note to our team_. Documentation is written in reST format. Please, refer to Help writing reStructuredText to get some insight regarding syntax and existing reST editors on the market.
+This extension lets you include complete external PHP solutions (e.g. message boards or image galleries) into TYPO3.
+With this extension you are able to select a local PHP script as well as a call a script written in any language on a
+remote server via a real HTTP request.
 
-.. _team: https://forge.typo3.org/projects/typo3v4-official_extension_template/issues
+LumoNet PHP Include collects all data sent to the page where the plugin is used and transfers it to the called script
+(this only applies to remote calls as local scripts are just included ans thus have access to all GET, POST and other
+server data anyway). The user can choose to have GET data transferred to the called remote script (the transfer of POST
+data, cookies and even the handling of file uploads will be realized in future versions).
 
-Here should be given a brief overview of the extension. What does it do? What problem does it solve? Who is interested in this? Basically the document includes everything people need to know to decide, if they should go on with this extension.
-
-.. figure:: ../Images/IntroductionPackage.png
-	:width: 500px
-	:alt: Introduction Package
-
-	Introduction Package just after installation (caption of the image)
-
-	How the Frontend of the Introduction Package looks like just after installation (legend of the image)
+LumoNet PHP Include also provides the ability to strip the resulting content of a called remote app so one can use the
+PHP app stand-alone as well as integrated in a TYPO3 website.

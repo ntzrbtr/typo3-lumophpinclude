@@ -11,39 +11,48 @@
 Users manual
 ============
 
-Documentation of how to use the extension, how it works, how to apply it, if it's a website plugin.
+The extension provides a frontend plugin with an options form to control the integration of the external script.
 
-Language should be non-technical, explaining, using small examples. Don't use to many acronyms unless they have been explained.
-
-Examples: For the "News" plugin this would be a manual showing how to create the news items, explaining the options etc.
-
-Provide screenshots of a neutral Backend such as the Backend of the Introduction Package for instance. Have in mind that the User manual could possibly be re-used in a larger documentation compilation, for example when a company generates a documentation for its client.
-
-Target group: **Users**
-
-.. figure:: ../Images/UserManual/BackendView.png
+.. figure:: ../Images/UsersManual/flexform_1.jpg
 	:width: 500px
-	:alt: Backend view
+	:alt: Integration options
 
-	Default Backend view (caption of the image)
+	Options for integration of a remote script
 
-	The Backend view of TYPO3 after the user has clicked on module "Page". (legend of the image)
+- Add a new content element of type plugin „PHP Include“ to the desired page.
+- Choose the type of included script, enter the URL or select/upload a local file and set the desired parameters. If you
+  call a remote script, you might want to check the „Strip non-body parts“ marker to get a valid HTML result page. If
+  you even have markers set in the script, you can use the „Strip content outside markers“ option along with the input
+  field labeled „Marker for stripping“. The marker must be of the form ``<!-- MARKER -->``.
 
+  **Note: This marker is not related in any way to the commonly used markes in extension or page templates!**
+- To adjust the display of the included code you can use „Wrap output with div“ and have another ``div`` tag wrapped
+  around the content to apply additional CSS directives on it. The class of the ``div`` tag is
+  ``tx_lumophpinclude_<MD5 hash of included file name>``.
+- Call the page in the frontend and check the results.
 
-Link to official documentation
-------------------------------
+Explanation of the processing options
+-------------------------------------
 
-Sphinx makes it easy to link to official TYPO3 documentation:
+.. figure:: ../Images/UsersManual/flexform_2.jpg
+	:width: 500px
+	:alt: Processing options
 
-- :ref:`TYPO3 Tutorial for Editors <t3editors:start>`
-- :ref:`Getting Started Tutorial <t3start:start>`
+	Processing options for included scripts
 
-and you may even link to a very specific chapter explaining how to :ref:`create a browser condition <t3tsref:condition-browser>` within the TypoScript Reference.
+The following processing options are available for all types of included scripts:
 
-For a complete reference of available cross-link prefixes, please consult file ``_make/conf.py``.
+- **Strip non-body parts**: Remove everything outside the body tag (including the tag itself) from the fetched script
+  result.
+- **Strip content outside markers**: Strip everything outside the set markers from the fetched script result.
+- **Marker for stripping**: Marker for stripping; must be of the form ``<!-- MARKER -->``
+- **Wrap output into div**: have another ``div`` tag wrapped around the content to apply additional CSS directives on it.
+  The class of the div tag is ``tx_lumophpinclude_<MD5 hash of included file name>``.
 
+The following options are only available for remote scripts:
 
-FAQ
-^^^
-
-Possible subsection: FAQ
+- **Rewrite internal links**: Change the URL of internal links (i.e. links whose URL does not have a host specified) to
+  point to the same TYPO3 page; the new URL is the added as the URL parameter ``tx_lumophpinclude_url``; this way, you
+  can include a whole website.
+- **Rewrite local resources (e.g. of images)**: Change the URL of all ``src`` attriubutes in the fetched script result to
+  point to the original server to have images displayed correctly though the HTML is displayed on your own page

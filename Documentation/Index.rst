@@ -56,5 +56,4 @@ LumoNet PHP Include
 
 	Introduction/Index
 	UsersManual/Index
-	AdministratorManual/Index
 	Links
