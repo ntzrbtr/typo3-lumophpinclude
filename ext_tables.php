@@ -7,7 +7,7 @@ if (!defined('TYPO3_MODE')) {
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY . '_pi1'] = 'layout,select_key';
 
 // Add the frontend plugin.
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array('LLL:EXT:lumophpinclude/locallang_db.php:tt_content.list_type_pi1', $_EXTKEY . '_pi1'), 'list_type');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array('LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_db.php:tt_content.list_type_pi1', $_EXTKEY . '_pi1'), 'list_type');
 
 // Use FlexForms for the plugin.
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY . '_pi1'] = 'pi_flexform';

@@ -43,9 +43,9 @@ class tx_lumophpinclude_pi1_wizicon {
 		$LL = $this->includeLocalLang();
 
 		$wizardItems['plugins_tx_lumophpinclude_pi1'] = array(
-			'icon' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('lumophpinclude') . 'pi1/ce_wiz.gif',
+			'icon' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('lumophpinclude') . 'Resources/Public/Icons/pi1.gif',
 			'title' => $LANG->getLLL('pi1_title', $LL),
-			'description' => $LANG->getLLL('pi1_plus_wiz_description', $LL),
+			'description' => $LANG->getLLL('pi1_description', $LL),
 			'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=lumophpinclude_pi1',
 		);
 
@@ -58,7 +58,7 @@ class tx_lumophpinclude_pi1_wizicon {
 	 * @return array Array containing language labels
 	 */
 	function includeLocalLang() {
-		$llFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('lumophpinclude') . 'locallang.xml';
+		$llFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('lumophpinclude') . 'Resources/Private/Language/locallang_be.xml';
 		$LOCAL_LANG = \TYPO3\CMS\Core\Utility\GeneralUtility::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 
 		return $LOCAL_LANG;
