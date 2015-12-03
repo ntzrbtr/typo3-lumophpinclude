@@ -1,0 +1,9 @@
+mod.wizards.newContentElement.wizardItems.plugins.elements.lumophpinclude_pi1 {
+	title = LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_be.xlf:pi1_title
+	description = LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_be.xlf:pi1_description
+	icon = ../typo3conf/ext/lumophpinclude/Resources/Public/Icons/pi1.gif
+	tt_content_defValues {
+		CType = list
+		list_type = lumophpinclude_pi1
+	}
+}
