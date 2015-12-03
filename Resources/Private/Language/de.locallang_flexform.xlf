@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-12-03T22:21:48Z">
+		<header>
+			<description>Language labels for Flexform</description>
+			<type>module</type>
+			<authorName>Thomas Off</authorName>
+			<authorEmail>retiolum@googlemail.com</authorEmail>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="pi1.sprocessing.rewrite_internal_link" approved="yes">
+				<source>Rewrite internal links</source>
+				<target>Interne links ändern</target>
+			</trans-unit>
+			<trans-unit id="pi1.sprocessing.rewrite_local_resource" approved="yes">
+				<source>Rewrite local resources (e.g. of images)</source>
+				<target>Lokale Ressourcen ändern (z.B. URL von Bildern)</target>
+			</trans-unit>
+			<trans-unit id="pi1.sprocessing.sheet_title" approved="yes">
+				<source>Processing options</source>
+				<target>Verarbeitung</target>
+			</trans-unit>
+			<trans-unit id="pi1.sprocessing.strip_marker" approved="yes">
+				<source>Marker for stripping</source>
+				<target>Marker für Entfernen</target>
+			</trans-unit>
+			<trans-unit id="pi1.sprocessing.strip_non_body" approved="yes">
+				<source>Strip non-body parts</source>
+				<target>Entferne nicht-Body-Teile</target>
+			</trans-unit>
+			<trans-unit id="pi1.sprocessing.strip_non_marked" approved="yes">
+				<source>Strip content outside markers</source>
+				<target>Entferne nicht-markierte Teile</target>
+			</trans-unit>
+			<trans-unit id="pi1.sprocessing.wrap_in_div" approved="yes">
+				<source>Wrap output into div</source>
+				<target>Ausgabe in div-Tag wrappen</target>
+			</trans-unit>
+			<trans-unit id="pi1.ssource.script_file" approved="yes">
+				<source>Local PHP script</source>
+				<target>Lokales PHP-Skript</target>
+			</trans-unit>
+			<trans-unit id="pi1.ssource.script_type" approved="yes">
+				<source>Type of script to include</source>
+				<target>Art des Include-Skriptes</target>
+			</trans-unit>
+			<trans-unit id="pi1.ssource.script_type_file" approved="yes">
+				<source>Local script</source>
+				<target>Lokales Skript</target>
+			</trans-unit>
+			<trans-unit id="pi1.ssource.script_type_url" approved="yes">
+				<source>URL via HTTP</source>
+				<target>URL über HTTP</target>
+			</trans-unit>
+			<trans-unit id="pi1.ssource.script_url" approved="yes">
+				<source>URL of PHP script</source>
+				<target>URL des PHP-Skripts</target>
+			</trans-unit>
+			<trans-unit id="pi1.ssource.sheet_title" approved="yes">
+				<source>Include source</source>
+				<target>Quellskript</target>
+			</trans-unit>
+			<trans-unit id="pi1.ssource.transfer_get" approved="yes">
+				<source>Transfer GET parameters</source>
+				<target>GET-Parameter übergeben</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

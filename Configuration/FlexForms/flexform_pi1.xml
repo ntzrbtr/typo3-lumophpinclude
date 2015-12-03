@@ -3,22 +3,22 @@
         <sSource>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.sheet_title</sheetTitle>
+                    <sheetTitle>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.sheet_title</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <script_type>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.script_type</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.script_type</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.script_type_file</numIndex>
+                                        <numIndex index="0">LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.script_type_file</numIndex>
                                         <numIndex index="1">file</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.script_type_url</numIndex>
+                                        <numIndex index="0">LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.script_type_url</numIndex>
                                         <numIndex index="1">url</numIndex>
                                     </numIndex>
                                 </items>
@@ -27,7 +27,7 @@
                     </script_type>
                     <script_file>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.script_file</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.script_file</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>file</internal_type>
@@ -42,7 +42,7 @@
                     </script_file>
                     <script_url>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.script_url</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.script_url</label>
                             <config>
                                 <type>input</type>
                                 <size>30</size>
@@ -51,7 +51,7 @@
                     </script_url>
                     <transfer_get>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.transfer_get</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.transfer_get</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -60,7 +60,7 @@
                     <!--
                     <transfer_post>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.transfer_post</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.transfer_post</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -68,7 +68,7 @@
                     </transfer_post>
                     <transfer_cookies>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.ssource.transfer_cookies</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.ssource.transfer_cookies</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -81,13 +81,13 @@
         <sProcessing>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.sprocessing.sheet_title</sheetTitle>
+                    <sheetTitle>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.sprocessing.sheet_title</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <strip_non_body>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.sprocessing.strip_non_body</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.sprocessing.strip_non_body</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -95,7 +95,7 @@
                     </strip_non_body>
                     <strip_non_marked>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.sprocessing.strip_non_marked</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.sprocessing.strip_non_marked</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -103,7 +103,7 @@
                     </strip_non_marked>
                     <strip_marker>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.sprocessing.strip_marker</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.sprocessing.strip_marker</label>
                             <config>
                                 <type>input</type>
                                 <size>20</size>
@@ -112,7 +112,7 @@
                     </strip_marker>
                     <wrap_in_div>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.sprocessing.wrap_in_div</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.sprocessing.wrap_in_div</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -120,7 +120,7 @@
                     </wrap_in_div>
                     <rewrite_internal_link>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.sprocessing.rewrite_internal_link</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.sprocessing.rewrite_internal_link</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -129,7 +129,7 @@
                     <!--
                     <rewrite_external_link>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.sprocessing.rewrite_external_link</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.sprocessing.rewrite_external_link</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -138,7 +138,7 @@
                     -->
                     <rewrite_local_resource>
                         <TCEforms>
-                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xml:lumophpinclude.pi1.flexform.sprocessing.rewrite_local_resource</label>
+                            <label>LLL:EXT:lumophpinclude/Resources/Private/Language/locallang_flexform.xlf:pi1.sprocessing.rewrite_local_resource</label>
                             <config>
                                 <type>check</type>
                             </config>
