@@ -11,7 +11,7 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY . '_pi1'] =
 
 // Use FlexForms for the plugin.
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY . '_pi1'] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($_EXTKEY . '_pi1', 'FILE:EXT:lumophpinclude/pi1/flexform_ds_pi1.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($_EXTKEY . '_pi1', 'FILE:EXT:lumophpinclude/Configuration/FlexForms/flexform_pi1.xml');
 
 // Add wizard icon for the backend.
 if (TYPO3_MODE == 'BE') {
