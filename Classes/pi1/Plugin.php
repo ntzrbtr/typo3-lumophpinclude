@@ -139,7 +139,7 @@ class Plugin extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 */
 	function doRemoteCall() {
 		// Create new Snoopy object for doing remote calls
-		$oSnoopy = new Snoopy();
+		$oSnoopy = new \Snoopy();
 
 		// Fetch GET variables using TYPO3 API
 		$lGetvars = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET();
