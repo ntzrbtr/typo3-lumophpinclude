@@ -1,4 +1,5 @@
 <?php
+namespace Retiolum\Lumophpinclude\Pi1;
 
 /***************************************************************
  *  Copyright notice
@@ -23,7 +24,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('lumophpinclude') . 'lib/Snoopy.class.php');
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('lumophpinclude') . 'lib/Snoopy.class.php');
 
 /**
  * Plugin 'PHP Include' for the 'lumophpinclude' extension
@@ -31,7 +32,7 @@ require_once(t3lib_extMgm::extPath('lumophpinclude') . 'lib/Snoopy.class.php');
  * @package lumonetphpinclude
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class tx_lumophpinclude_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
+class Plugin extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 	var $prefixId = 'tx_lumophpinclude_pi1'; // Same as class name
 	var $scriptRelPath = 'pi1/class.tx_lumophpinclude_pi1.php'; // Path to this script relative to the extension directory
@@ -101,7 +102,6 @@ class tx_lumophpinclude_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		} else {
 			// Remote script will be included via a real HTTP request
 			$content = $this->doRemoteCall();
-
 		}
 
 		// Post-process fetched content
