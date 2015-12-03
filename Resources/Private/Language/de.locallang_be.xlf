@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-12-03T22:21:19Z">
+		<header>
+			<description>Language labels</description>
+			<type>module</type>
+			<authorName>Thomas Off</authorName>
+			<authorEmail>retiolum@googlemail.com</authorEmail>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="pi1_description" approved="yes">
+				<source>Include external PHP scripts.</source>
+				<target>Externe PHP-Skripte einbinden.</target>
+			</trans-unit>
+			<trans-unit id="pi1_title" approved="yes">
+				<source>PHP Include</source>
+				<target>PHP-Include</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
