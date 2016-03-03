@@ -1,0 +1,16 @@
+{
+	"name": "retiolum/lumophpinclude",
+	"type": "typo3-cms-extension",
+	"version": "1.2.2",
+	"description": "Includes local PHP scripts via eval() or external PHP script via HTTP. Provides options to transfer GET and POST variables to the included script and strip header and footer HTML parts.",
+	"homepage": "http://typo3.org",
+	"license": ["GPL-3.0+"],
+	"require": {
+		"typo3/cms-core": ">=6.2.0,<=6.2.99"
+	},
+	"autoload": {
+        "psr-4": {
+            "Retiolum\\Lumophpinclude\\": "Classes"
+        }
+    }
+}
