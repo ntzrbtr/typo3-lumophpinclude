@@ -26,8 +26,6 @@ namespace Retiolum\Lumophpinclude\Pi1;
 
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('lumophpinclude') . 'lib/Snoopy.class.php');
-
 /**
  * Plugin 'PHP Include' for the 'lumophpinclude' extension.
  */
@@ -138,7 +136,7 @@ class Plugin extends AbstractPlugin {
 	 */
 	function doRemoteCall() {
 		// Create new Snoopy object for doing remote calls
-		$oSnoopy = new \Snoopy();
+		$oSnoopy = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Retiolum\\Lumophpinclude\\Utility\\Snoopy');
 
 		// Fetch GET variables using TYPO3 API
 		$lGetvars = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET();
