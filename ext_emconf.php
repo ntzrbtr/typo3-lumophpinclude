@@ -29,4 +29,9 @@ $EM_CONF[$_EXTKEY] = array(
 		'suggests' => array(
 		),
 	),
+	'autoload' => array(
+		'psr-4' => array(
+			'Retiolum\\Lumophpinclude\\' => 'Classes',
+		),
+	),
 );
